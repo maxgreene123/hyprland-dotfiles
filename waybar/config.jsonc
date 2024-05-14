@@ -3,7 +3,7 @@
     // try to keep it 4px across the config
     "height": 25,
     "modules-left": ["hyprland/workspaces", "custom/icon", "hyprland/window"],
-    "modules-right": ["pulseaudio", "cpu", "memory", "temperature", "clock", "tray"],
+    "modules-right": ["custom/spotify", "pulseaudio", "cpu", "memory", "temperature", "clock", "custom/power","tray"],
 
     /*
     MODULES
@@ -44,5 +44,19 @@
         "format": "[VOL:{volume}%]",
         "format-muted": "[VOL: M]",
         "on-click": "pavucontrol"
+    },
+    "custom/spotify": {
+        "exec": "~/.config/waybar/mediaplayer --player spotify",
+        "format": "[ {}   ]",
+        "return-type": "json",
+        "on-click": "playerctl play-pause",
+        "on-scroll-up": "playerctl next",
+        "on-scroll-down": "playerctl previous"
+    },
+    "custom/power": {
+        "exec": "echo '[LOCK]'", // Just to display the power icon
+        "return-type": "text",
+        "on-click": "hyprlock",
+        "interval": "once"
     }
 }
