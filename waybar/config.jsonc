@@ -9,7 +9,7 @@
     MODULES
     */
     "custom/icon": {
-        "exec": "~/.config/waybar/state",
+        "exec": "go run ~/.config/waybar/hypr-layouts.go",
         "interval": "once",
         "signal": 8
     },
@@ -46,7 +46,7 @@
         "on-click": "pavucontrol"
     },
     "custom/spotify": {
-        "exec": "~/.config/waybar/mediaplayer --player spotify",
+        "exec": "python ~/.config/waybar/mediaplayer.py --player spotify",
         "format": "[ {}   ]",
         "return-type": "json",
         "on-click": "playerctl play-pause",
