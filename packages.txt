@@ -42,6 +42,7 @@ pipewire-jack
 pipewire-pulse
 polkit-gnome
 protonup-qt-bin
+prismlauncher
 qbittorrent
 r2modman-bin
 rofi-wayland
