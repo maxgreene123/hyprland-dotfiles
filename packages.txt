@@ -74,6 +74,7 @@ wl-gammarelay
 wlr-randr
 wine
 wine-mono
+wine-gecko
 xarchiver
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
