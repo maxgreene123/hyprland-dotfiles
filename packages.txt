@@ -4,6 +4,7 @@ base-devel
 blueman
 bluez-tools
 btop
+bottles
 calibre
 chromium
 efibootmgr
@@ -71,6 +72,8 @@ wireplumber
 wl-clipboard
 wl-gammarelay
 wlr-randr
+wine
+wine-mono
 xarchiver
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
