@@ -113,5 +113,5 @@ source $ZSH/oh-my-zsh.sh
 alias sys.up='topgrade'
 eval $(thefuck --alias)
 export PATH=$HOME/.local/bin:$PATH
-
+alias nvim='lvim'
 export PATH=$PATH:/home/maxgreene/.spicetify
