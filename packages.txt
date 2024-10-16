@@ -5,6 +5,7 @@ blueman
 bluez-tools
 btop
 calibre
+chromium
 efibootmgr
 fastfetch
 firefox
@@ -22,6 +23,9 @@ hyprlock
 hyprpaper
 imagemagick
 intel-ucode
+jdk17-openjdk
+jdk8-openjdk
+jdk21-openjdk
 libpulse
 libreoffice-fresh
 linux
@@ -41,8 +45,10 @@ pipewire-alsa
 pipewire-jack
 pipewire-pulse
 polkit-gnome
-protonup-qt-bin
 prismlauncher
+protonup-qt-bin
+python-pip
+python-pipx
 qbittorrent
 r2modman-bin
 rofi-wayland
@@ -62,12 +68,13 @@ unzip
 vesktop-bin
 vim
 waybar
+webapp-manager
 wireplumber
 wl-clipboard
+wl-gammarelay
 wlr-randr
 xarchiver
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
-xorg-xhost
 zram-generator
 zsh
