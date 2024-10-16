@@ -111,7 +111,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #antigen bundle zsh-users/zsh-completions
 alias sys.up='topgrade'
+alias nvim='lvim'
 eval $(thefuck --alias)
 export PATH=$HOME/.local/bin:$PATH
-alias nvim='lvim'
 export PATH=$PATH:/home/maxgreene/.spicetify
