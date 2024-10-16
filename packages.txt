@@ -38,8 +38,6 @@ networkmanager
 noisetorch-bin
 nwg-look
 os-prober
-paru
-paru-debug
 pipewire
 pipewire-alsa
 pipewire-jack
