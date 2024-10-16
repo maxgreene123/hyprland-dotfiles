@@ -4,7 +4,6 @@ base-devel
 blueman
 bluez-tools
 btop
-bottles
 calibre
 chromium
 efibootmgr
