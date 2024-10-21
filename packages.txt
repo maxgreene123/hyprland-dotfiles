@@ -56,6 +56,7 @@ sof-firmware
 spotify
 steam
 swappy
+syncthing
 thefuck
 thunar
 thunar-archive-plugin
