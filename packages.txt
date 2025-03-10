@@ -1,4 +1,4 @@
-alacritty
+ghostty
 base
 base-devel
 blueman
@@ -58,8 +58,7 @@ steam
 swappy
 syncthing
 thefuck
-thunar
-thunar-archive-plugin
+nautilus
 topgrade-bin
 ttf-jetbrains-mono-nerd
 ttf-ms-win10-auto
@@ -77,6 +76,7 @@ wine-mono
 wine-gecko
 xarchiver
 xdg-desktop-portal-gtk
+uwsm
 xdg-desktop-portal-hyprland
 zram-generator
 zsh
