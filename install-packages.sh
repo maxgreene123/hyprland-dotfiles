@@ -1,2 +1,2 @@
 #!/bin/bash
-paru -S --needed - < packages.txt
+yay -S --needed - < packages.txt
