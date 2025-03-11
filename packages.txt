@@ -8,7 +8,7 @@ calibre
 thorium-browser-bin
 efibootmgr
 fastfetch
-firefox
+fish
 flatpak
 git
 github-cli
