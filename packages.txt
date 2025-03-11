@@ -5,7 +5,7 @@ blueman
 bluez-tools
 btop
 calibre
-chromium
+thorium-browser-bin
 efibootmgr
 fastfetch
 firefox
