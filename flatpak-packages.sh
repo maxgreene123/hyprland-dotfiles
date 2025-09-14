@@ -6,7 +6,7 @@ sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub
 
 flatpak install -y flathub com.github.tchx84.Flatseal
 
-flatpak install -y flathub io.github.martchus.syncthingtray
+flatpak install -y flathub org.vinegarhq.Sober
 
 flatpak install -y flathub com.usebottles.bottles
 # Display success message
