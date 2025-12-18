@@ -34,8 +34,8 @@ mako
 mpv
 nautilus
 neovim
-network-manager-applet
-networkmanager
+iwctl
+iwgtk
 nwg-look
 os-prober
 pipewire
