@@ -103,18 +103,19 @@ hl.config({
 
 -- Plugins
 
-hl.plugin.load("/usr/lib/libhyprcsgo.so")
+hl.plugin.load(os.getenv("HOME") .. "/.local/lib/hyprland/libhyprcsgo.so")
 
-hl.config({
-    plugin = {
-        csgo_vulkan_fix = {
-            fix_mouse = true,
+if hl.plugin.csgo_vulkan_fix then
+    hl.config({
+        plugin = {
+            csgo_vulkan_fix = {
+                fix_mouse = true,
+            },
         },
-    },
-})
+    })
 
-hl.plugin.csgo_vulkan_fix.vkfix_app({ app = "cs2", w = 1280, h = 960 })
-
+    hl.plugin.csgo_vulkan_fix.vkfix_app({ app = "cs2", w = 1280, h = 960 })
+end
 -- Input
 
 hl.config({
