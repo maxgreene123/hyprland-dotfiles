@@ -1,0 +1,16 @@
+# Sourced by uwsm before the compositor starts; exported into the
+# systemd user environment, so Hyprland and everything it spawns inherit it.
+
+# Add the Flatpak export dirs to XDG_DATA_DIRS so Flathub .desktop files are
+# visible to rofi -show drun, waybar, and the portals. Arch ships this logic in
+# /etc/profile.d/flatpak.sh, but that only runs for login shells -- the session
+# here starts as a systemd user unit, so it never fires. Reuse the script rather
+# than hardcoding paths, so it keeps working if the install locations change.
+if [ -r /etc/profile.d/flatpak.sh ]; then
+    . /etc/profile.d/flatpak.sh
+fi
+
+# Desktop appearance
+export XCURSOR_THEME=Adwaita
+export XCURSOR_SIZE=24
+export QT_QPA_PLATFORMTHEME=gtk3

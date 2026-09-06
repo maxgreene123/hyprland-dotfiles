@@ -1,30 +1,22 @@
-
-
 @define-color accent #383838;
 @define-color text #f8f8f8;
 @define-color invText #f8f8f8;
-/* text when background is accent */
+
 @define-color bg #181818;
-
-
-/* @import "./wal.css";
-@define-color accent @color5;
-@define-color bg @background;
-@define-color text @foreground; */
 
 @import "./base16/base16-default-dark.css";
 
 @define-color accent @base01;
 @define-color text @base07;
 @define-color invText @base07;
-/* text when background is accent */
+
 @define-color bg @base00;
 
 * {
   font-family: JetBrainsMono Nerd Font;
   font-size: 14px;
   border-radius: 0px;
-  /* :[ */
+
   min-height: 0px;
 }
 
@@ -46,10 +38,10 @@ window#waybar {
 #workspaces button.active {
   background-color: @accent;
   color: @invText;
-  /* color: @background; */
+
 }
 
-#pulseaudio,
+#wireplumber,
 #cpu,
 #memory,
 #temperature,
@@ -61,7 +53,6 @@ window#waybar {
   color: @text;
   margin: 0px;
 }
-
 
 .modules-left {
   background-color: @bg;

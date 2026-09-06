@@ -1,0 +1,7 @@
+[Unit]
+Description=Update Vencord and repair Discord patches
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/vencord-maintain
+TimeoutStartSec=5min

@@ -1,3 +1,9 @@
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"
+
 [font]
 normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
 size = 12

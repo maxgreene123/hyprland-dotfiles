@@ -9,8 +9,14 @@ mkdir -p -- "$SAVEDIR"
 # Format the filename with date and time
 FILENAME="$SAVEDIR/$(date +'%Y-%m-%d-%H%M%S_screenshot.png')"
 
-# Use grim to capture the screenshot, slurp to select the area
-grim -g "$(slurp)" "$FILENAME"
+# Select the area first. If slurp is cancelled (Escape / right-click) it exits
+# non-zero and prints nothing, so bail out instead of handing grim an empty
+# geometry and then notifying about a file that was never written.
+GEOMETRY=$(slurp) || exit 0
+[ -n "$GEOMETRY" ] || exit 0
+
+# Use grim to capture the selected area
+grim -g "$GEOMETRY" "$FILENAME" || exit 1
 
 # Open the screenshot with swappy for editing
 swappy -f "$FILENAME" -o "$FILENAME"
