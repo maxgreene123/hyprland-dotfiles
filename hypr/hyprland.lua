@@ -15,11 +15,12 @@ hl.config({
 
 -- My programs
 
-local terminal    = "uwsm app -- alacritty"
-local fileManager = "uwsm app -- thunar"
-local browser     = "uwsm app -- brave-origin"
-local editor      = "uwsm app -- zeditor"
-local menu        = 'rofi -show drun -show-icons -run-command "uwsm app -- {cmd}"'
+local terminal = "uwsm app -- alacritty"
+local defaultApp = "python3 " .. string.format("%q", os.getenv("HOME") .. "/.config/quickshell/scripts/desktop_bridge.py") .. " --launch-role "
+local fileManager = defaultApp .. "files"
+local browser = defaultApp .. "browser"
+local editor = defaultApp .. "editor"
+local menu = "quickshell ipc call shell launcher"
 
 local scripts     = os.getenv("HOME") .. "/.config/hypr/scripts"
 
@@ -27,11 +28,10 @@ local scripts     = os.getenv("HOME") .. "/.config/hypr/scripts"
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("uwsm app -- blueman-applet")
-    hl.exec_cmd("uwsm app -- mako")
     hl.exec_cmd("uwsm app -- wl-gammarelay-rs")
     hl.exec_cmd("uwsm app -- /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     hl.exec_cmd("uwsm app -- hyprpaper")
-    hl.exec_cmd("uwsm app -- waybar")
+    hl.exec_cmd("systemctl --user start quickshell.service")
     hl.exec_cmd("uwsm app -- tailscale systray")
 end)
 
@@ -105,6 +105,7 @@ hl.config({
 
 hl.plugin.load(os.getenv("HOME") .. "/.local/lib/hyprland/libhyprcsgo.so")
 
+-- Apply plugin settings only when its Lua API is available.
 if hl.plugin.csgo_vulkan_fix then
     hl.config({
         plugin = {
@@ -116,6 +117,7 @@ if hl.plugin.csgo_vulkan_fix then
 
     hl.plugin.csgo_vulkan_fix.vkfix_app({ app = "cs2", w = 1280, h = 960 })
 end
+
 -- Input
 
 hl.config({
@@ -143,6 +145,10 @@ hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SHIFT + Z", hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + R",         hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("uwsm app -- " .. scripts .. "/screenshot.sh"))
+
+-- Quickshell panels
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("quickshell ipc call shell notifications"))
+hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("quickshell ipc call shell settings"))
 
 -- Window management
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())

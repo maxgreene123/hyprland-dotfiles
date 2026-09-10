@@ -1,0 +1,6 @@
+module qs.services
+singleton Audio Audio.qml
+singleton Players Players.qml
+singleton Notifs Notifs.qml
+singleton DesktopBridge DesktopBridge.qml
+singleton ShellState ShellState.qml

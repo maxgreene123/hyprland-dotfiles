@@ -1,10 +1,12 @@
 # Hyprland dotfiles
 
-Current Arch Linux desktop configuration using Hyprland Lua, UWSM, Waybar, Adwaita dark styling, and Papirus-Dark icons.
+Current Arch Linux desktop configuration using Hyprland Lua, UWSM, Quickshell, Adwaita dark styling, and Papirus-Dark icons.
 
 ## Layout
 
-- `hypr/`, `waybar/`, `mako/`: compositor, bar, notifications, and helper scripts.
+- `hypr/`: compositor, lock screen, wallpaper, and helper scripts.
+- `quickshell/`: bar, launcher, quick controls, notifications, network controls, and app defaults.
+- `dbus-1/services/`, `systemd/user/quickshell.service`: notification activation and shell startup.
 - `gtk-3.0/`, `gtk-4.0/`, `gtkrc-2.0`, `icons/`: dark theme and cursor defaults.
 - `uwsm/`, `xdg-desktop-portal/`: session environment and portal selection.
 - `alacritty.toml`, `zshrc`: terminal configuration, autosuggestions, and syntax highlighting.
@@ -26,6 +28,21 @@ gsettings set org.gnome.desktop.interface icon-theme Papirus-Dark
 gsettings set org.gnome.desktop.interface cursor-theme Adwaita
 gsettings set org.gnome.desktop.interface cursor-size 24
 ```
+
+Install the shell after copying `hypr/` and `uwsm/` into `~/.config/`:
+
+```sh
+python3 quickshell/scripts/session.py install
+```
+
+The installer copies Quickshell into `~/.config/quickshell` and installs its user
+service and D-Bus activation. Hyprland starts that service once per session.
+Waybar, Rofi, and Mako are replaced; remove those packages and old autostarts.
+Existing app associations and network profiles are preserved.
+
+`Super+R` opens the launcher. `[SET]` or `Super+N` opens quick controls with
+notifications below. Wi-Fi/Bluetooth and Apps have separate SET tabs.
+`Super+Comma` opens Apps; Lock stays in the SET header.
 
 Launch Hyprland through UWSM. Portals use D-Bus/systemd activation; no portal startup script is needed. The CS2 plugin is package-managed, so disable Topgrade's `hyprpm` step if using this setup.
 

@@ -1,0 +1,7 @@
+module qs.components
+NotificationCard 1.0 NotificationCard.qml
+FlatButton 1.0 FlatButton.qml
+FlatField 1.0 FlatField.qml
+FlatCombo 1.0 FlatCombo.qml
+FlatSlider 1.0 FlatSlider.qml
+Label 1.0 Label.qml

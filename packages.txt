@@ -26,10 +26,12 @@ flatpak
 gamemode
 gamescope
 git
+github-cli
 gnome-themes-extra
 go
 gst-plugin-pipewire
 gvfs
+htop
 hyprland
 hyprland-plugin-csgo-vulkan-fix
 hyprlock
@@ -48,9 +50,9 @@ linux
 linux-firmware
 localsend-bin
 ly
-mako
 millennium
 mkinitcpio
+mocktail-git
 mullvad-vpn-bin
 neovim
 nextcloud-client
@@ -72,7 +74,7 @@ prismlauncher
 protonmail-bridge
 protonplus
 qbittorrent
-rofi
+quickshell
 rust
 scx-scheds
 slack-desktop
@@ -110,7 +112,6 @@ ufw
 uwsm
 vlc
 vulkan-radeon
-waybar
 wget
 wireplumber
 wl-clipboard

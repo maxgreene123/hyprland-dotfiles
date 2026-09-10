@@ -1,0 +1,3 @@
+module modules.bar
+BarWrapper 1.0 BarWrapper.qml
+Bar 1.0 Bar.qml

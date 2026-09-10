@@ -1,0 +1,14 @@
+[Unit]
+Description=Quickshell desktop
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=dbus
+BusName=org.freedesktop.Notifications
+ExecStart=/usr/bin/quickshell --no-duplicate -p "%h/.config/quickshell" --no-color
+Restart=on-failure
+RestartSec=2
+TimeoutStartSec=20
+KillMode=control-group
+Environment=PYTHONUNBUFFERED=1
