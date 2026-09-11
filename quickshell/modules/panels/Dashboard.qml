@@ -44,10 +44,10 @@ ColumnLayout {
         ColumnLayout {
             Layout.preferredWidth: 290; Layout.fillHeight: true; spacing: 16
             Label { text: "SYSTEM"; color: Theme.muted; font.pixelSize: 12 }
-            Label { text: "[CPU:" + DesktopBridge.stats.cpu + "%]  [MEM:" + DesktopBridge.stats.memory + "%]"; Layout.fillWidth: true }
-            Label { text: "GPU usage: " + (DesktopBridge.stats.gpu == null ? "Unavailable" : DesktopBridge.stats.gpu + "%"); Layout.fillWidth: true }
+            Label { text: "[CPU:" + DesktopBridge.stats.cpu + "%]  [MEM:" + DesktopBridge.stats.memory + "%]  [GPU:" + (DesktopBridge.stats.gpu == null ? "—" : DesktopBridge.stats.gpu + "%") + "]"; Layout.fillWidth: true }
             Label { text: "CPU temperature: " + (DesktopBridge.stats.temperature ?? "—") + "°C"; Layout.fillWidth: true }
             MediaControls { Layout.fillWidth: true }
+            FlatButton { text: "App launcher"; Layout.fillWidth: true; onClicked: ShellState.toggle("launcher", ShellState.panelScreen) }
             FlatButton { text: "Control center"; Layout.fillWidth: true; onClicked: ShellState.toggle("controls", ShellState.panelScreen) }
             FlatButton { text: "Notifications (" + Notifs.unreadCount + ")"; Layout.fillWidth: true; onClicked: ShellState.toggle("notifications", ShellState.panelScreen) }
             FlatButton { text: "Default applications"; Layout.fillWidth: true; onClicked: ShellState.toggle("settings", ShellState.panelScreen) }

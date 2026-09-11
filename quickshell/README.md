@@ -10,8 +10,8 @@ at `0940abdb65749b1796aa4755eea35a161f92cb64`; MIT attribution is in `LICENSE`.
 - `[SET]` / `Super+N`: quick controls with notifications below.
 - `SET → Wi-Fi / Bluetooth`: network and device controls.
 - `SET → Apps` / `Super+Comma`: default apps and file types.
-- `SET → Lock`: Hyprlock. Clock: calendar and media.
-- `Super+Shift+L`: dashboard with CPU, GPU, and memory usage.
+- `SET → Quick controls → Lock`: Hyprlock, beside the other session actions. Clock: calendar and media.
+- `Super+Shift+L`: dashboard with CPU, memory, and GPU usage on one line; App launcher appears above Control center.
 - `Super+Shift+J` / `Super+Shift+K`: vibrance on / off.
 
 Panels follow the clicked or focused monitor. Clocks use 12-hour time.
@@ -27,6 +27,10 @@ BlueZ/Blueman, PipeWire/WirePlumber, Papirus-Dark, and JetBrainsMono Nerd Font.
 ```sh
 python3 scripts/session.py install
 ```
+
+From a TTY without a running graphical session, add `--no-start`. This installs
+the files without contacting systemd, D-Bus, or the compositor. The full dotfiles
+restore script (`../scripts/install.py`) uses this mode.
 
 Installs into `~/.config/quickshell`, `~/.config/systemd/user`, and
 `~/.local/share/dbus-1/services`. Hyprland Lua starts `quickshell.service`.

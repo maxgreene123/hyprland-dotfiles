@@ -2,3 +2,5 @@
 *.bak
 *.before-*
 *~
+__pycache__/
+*.pyc

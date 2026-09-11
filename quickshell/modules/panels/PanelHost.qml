@@ -34,7 +34,6 @@ PanelWindow {
                 RowLayout {
                     visible: ShellState.panel !== "launcher"
                     Label { text: "[ " + (window.sidePanel ? "SET" : ShellState.panel.toUpperCase()) + " ]"; font.bold: true; Layout.fillWidth: true }
-                    FlatButton { visible: window.sidePanel; iconName: "system-lock-screen"; text: "Lock"; compact: true; onClicked: ShellState.command(["uwsm", "app", "--", "hyprlock"]) }
                     FlatButton { text: "[×]"; compact: true; onClicked: ShellState.close() }
                 }
                 GridLayout {

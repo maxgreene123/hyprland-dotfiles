@@ -36,6 +36,7 @@ ColumnLayout {
                 FlatButton { text: "Screenshot"; onClicked: ShellState.command(["uwsm", "app", "--", Quickshell.env("HOME") + "/.config/hypr/scripts/screenshot.sh"]) }
             }
             RowLayout {
+                FlatButton { text: "Lock"; onClicked: ShellState.command(["uwsm", "app", "--", "hyprlock"]) }
                 FlatButton { text: "Suspend"; onClicked: root.confirmAction = "suspend" }
                 FlatButton { text: "Log out"; onClicked: root.confirmAction = "logout" }
                 FlatButton { text: "Power off"; onClicked: root.confirmAction = "poweroff" }

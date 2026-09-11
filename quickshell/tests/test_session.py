@@ -65,6 +65,17 @@ class InstallationTests(unittest.TestCase):
         session.restore(Path((session.STATE / 'last-install').read_text().strip()))
         self.assertEqual(session.DEST.resolve(), session.ROOT)
 
+    def test_install_and_rollback_without_a_session(self):
+        session.DEST.mkdir()
+        (session.DEST / 'old.qml').write_text('Previous config')
+        session.install(start=False)
+        self.assertTrue((session.DEST / 'shell.qml').exists())
+        self.assertTrue(session.ACTIVATION.exists())
+        session.restore(Path((session.STATE / 'last-install').read_text().strip()), start=False)
+        self.assertEqual((session.DEST / 'old.qml').read_text(), 'Previous config')
+        self.calls.assert_not_called()
+        session.verify.assert_not_called()
+
     def test_failure_restores_previous_directory(self):
         session.DEST.mkdir()
         (session.DEST / 'old.qml').write_text('Previous config')

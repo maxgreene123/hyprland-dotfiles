@@ -68,8 +68,9 @@ def verify():
     raise RuntimeError('Quickshell did not become ready; check the user journal.')
 
 
-def restore(backup):
-    run('systemctl', '--user', 'stop', 'quickshell.service', check=False)
+def restore(backup, start=True):
+    if start:
+        run('systemctl', '--user', 'stop', 'quickshell.service', check=False)
     for record in json.loads((backup / 'manifest.json').read_text()):
         path, saved = Path(record['path']), backup / record['saved']
         if path not in PATHS:
@@ -82,19 +83,21 @@ def restore(backup):
             shutil.copytree(saved, path, symlinks=True)
         elif record['kind'] == 'file':
             shutil.copy2(saved, path)
-    reload_services()
-    if UNIT.exists():
-        run('systemctl', '--user', 'start', 'quickshell.service')
-        verify()
+    if start:
+        reload_services()
+        if UNIT.exists():
+            run('systemctl', '--user', 'start', 'quickshell.service')
+            verify()
 
 
-def install():
+def install(start=True):
     if not shutil.which('quickshell'):
         raise RuntimeError('Install the quickshell package first.')
     backup = snapshot()
     try:
         if ROOT != DEST:
-            run('systemctl', '--user', 'stop', 'quickshell.service', check=False)
+            if start:
+                run('systemctl', '--user', 'stop', 'quickshell.service', check=False)
             staging = CONFIG / 'quickshell.installing'
             if staging.exists():
                 raise RuntimeError(f'Remove the previous staging directory first: {staging}')
@@ -112,27 +115,29 @@ def install():
             LEGACY.unlink()
         if not shutil.which('mako') and MAKO_UNIT.is_symlink() and os.readlink(MAKO_UNIT) == '/dev/null':
             MAKO_UNIT.unlink()
-        reload_services()
-        run('systemctl', '--user', 'restart', 'quickshell.service')
-        verify()
+        if start:
+            reload_services()
+            run('systemctl', '--user', 'restart', 'quickshell.service')
+            verify()
         (STATE / 'last-install').write_text(str(backup) + '\n')
         print(f'Installed in {DEST}. Backup: {backup}')
     except Exception:
-        restore(backup)
+        restore(backup, start=start)
         raise
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=['install', 'rollback'])
+    parser.add_argument('--no-start', action='store_true', help='Only change files; do not contact systemd, D-Bus, or the compositor (for TTY installs).')
     args = parser.parse_args()
     if args.action == 'install':
-        install()
+        install(start=not args.no_start)
     else:
         marker = STATE / 'last-install'
         if not marker.exists():
             raise RuntimeError('No installation backup found.')
-        restore(Path(marker.read_text().strip()))
+        restore(Path(marker.read_text().strip()), start=not args.no_start)
         marker.unlink()
         print('Previous Quickshell installation restored. App defaults preserved.')
 

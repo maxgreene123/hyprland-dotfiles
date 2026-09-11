@@ -69,7 +69,7 @@ Item {
                 FlatButton { compact: true; text: "[MEM:" + root.stats.memory + "%]"; onClicked: ShellState.toggle("dashboard", root.screen) }
                 Label { visible: root.stats.temperature !== null; height: parent.height; verticalAlignment: Text.AlignVCenter; color: root.stats.temperature >= 80 ? Theme.warning : Theme.text; text: "[" + root.stats.temperature + "°C]" }
                 FlatButton { compact: true; text: "[" + Qt.formatDateTime(clock.date, "hh:mm AP") + "]"; onClicked: ShellState.toggle("dashboard", root.screen) }
-                FlatButton { compact: true; text: "[SET" + (Notifs.unreadCount ? ":" + Notifs.unreadCount : "") + "]"; onClicked: ShellState.toggleSet(root.screen) }
+                FlatButton { compact: true; text: "[SET]"; onClicked: ShellState.toggleSet(root.screen) }
                 Repeater {
                     model: SystemTray.items.values.filter(item => !/blueman|bluetooth|networkmanager|nm-applet/i.test(item.id + " " + item.title))
                     Item {
