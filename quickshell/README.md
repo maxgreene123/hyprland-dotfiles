@@ -15,6 +15,7 @@ at `0940abdb65749b1796aa4755eea35a161f92cb64`; MIT attribution is in `LICENSE`.
 Panels follow the clicked or focused monitor. Clocks use 12-hour time.
 Spotify artwork, Papirus-Dark icons, and square panels share `config/Theme.qml`.
 DP-2 uses workspaces 1–10; HDMI-A-1 uses 11–20.
+The bar shows app names and `[playback icon Song - Artist]` up to 480px wide.
 
 ## Installation
 
@@ -55,6 +56,9 @@ IPC target `shell`: `launcher`, `controls`, `notifications`, `connections`,
 `settings`, `dashboard`, `close`, `status`, and `dnd(bool)`.
 
 ## Checks
+
+Run these from the repository’s `quickshell/` directory. Tests are excluded
+from the installed config.
 
 ```sh
 python3 tests/test_bridge.py

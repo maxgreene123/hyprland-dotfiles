@@ -7,6 +7,7 @@
 - Keep comments brief and use argument arrays for commands.
 - Preserve monitor assignments, app defaults, and network services.
 
-Run `python3 tests/test_bridge.py` after bridge changes.
+Tests live in the dotfiles repository, outside the installed config.
+Run `python3 tests/test_bridge.py` there after bridge changes.
 Run notification tests on the private bus described in `README.md`.
 Check affected panels and runtime logs after QML changes.

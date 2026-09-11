@@ -23,6 +23,8 @@ class InstallationTests(unittest.TestCase):
         (source / 'shell.qml').write_text('ShellRoot {}\n')
         (source / '.git').mkdir()
         (source / '.git/private').write_text('not installed')
+        (source / 'tests').mkdir()
+        (source / 'tests/fixture.qml').write_text('not installed')
         for path in (Path(__file__).parents[1] / 'integration').iterdir():
             (source / 'integration' / path.name).write_bytes(path.read_bytes())
         values = dict(ROOT=source, CONFIG=config, DATA=data, STATE=base / 'state',
@@ -48,6 +50,7 @@ class InstallationTests(unittest.TestCase):
         session.install()
         self.assertTrue((session.DEST / 'shell.qml').exists())
         self.assertFalse((session.DEST / '.git').exists())
+        self.assertFalse((session.DEST / 'tests').exists())
         self.assertIn('"' + str(session.DEST) + '"', session.UNIT.read_text())
         session.restore(Path((session.STATE / 'last-install').read_text().strip()))
         self.assertEqual((session.DEST / 'old.qml').read_text(), 'Previous config')

@@ -3,13 +3,21 @@
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
+import sys
 import time
+import tempfile
 from gi.repository import Gio, GLib
 
 root = Path(__file__).resolve().parents[1]
-path = root / 'notification-test.qml'
-log = open('/tmp/maxshell-notification-tests.log', 'w')
+fixture = tempfile.TemporaryDirectory(prefix='quickshell-notifications-')
+test_root = Path(fixture.name)
+for name in ['services', 'config', 'scripts']:
+    shutil.copytree(root / name, test_root / name, ignore=shutil.ignore_patterns('__pycache__'))
+path = test_root / 'shell.qml'
+shutil.copy2(root / 'tests/notification-test.qml', path)
+log = tempfile.TemporaryFile(mode='w+')
 p = subprocess.Popen(['quickshell', '-p', str(path), '--no-color'], stdout=log, stderr=log)
 bus = Gio.bus_get_sync(Gio.BusType.SESSION, None)
 
@@ -31,7 +39,8 @@ def notify(summary, replaces=0, critical=False, actions=False, image=False):
 try:
     for _ in range(100):
         if p.poll() is not None:
-            raise RuntimeError('Harness did not load; see /tmp/maxshell-notification-tests.log')
+            log.seek(0)
+            raise RuntimeError('Harness did not load:\n' + log.read())
         try:
             owned = bus.call_sync('org.freedesktop.DBus', '/org/freedesktop/DBus', 'org.freedesktop.DBus', 'NameHasOwner', GLib.Variant('(s)', ('org.freedesktop.Notifications',)), None, Gio.DBusCallFlags.NONE, 2000, None).unpack()[0]
             if owned:
@@ -79,4 +88,8 @@ try:
 finally:
     p.terminate()
     p.wait(timeout=5)
+    if sys.exc_info()[0]:
+        log.seek(0)
+        print(log.read(), file=sys.stderr)
     log.close()
+    fixture.cleanup()

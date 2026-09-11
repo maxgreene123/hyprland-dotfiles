@@ -13,6 +13,11 @@ Item {
     readonly property var monitor: Hyprland.monitorFor(screen)
     readonly property int firstWorkspace: screen.name === "HDMI-A-1" ? 11 : 1
     readonly property var activeTop: Hyprland.toplevels.values.find(t => t.lastIpcObject?.address === root.monitor?.activeWorkspace?.lastIpcObject?.lastwindow)
+    readonly property string appName: {
+        const appId = activeTop?.lastIpcObject?.class || activeTop?.lastIpcObject?.initialClass || "";
+        if (!appId) return "";
+        return DesktopEntries.heuristicLookup(appId)?.name || appId.split(".").pop();
+    }
     readonly property var player: Players.active
     readonly property var stats: DesktopBridge.stats
     SystemClock { id: clock; precision: SystemClock.Minutes }
@@ -38,16 +43,24 @@ Item {
         }
         Label {
             Layout.fillWidth: true; Layout.leftMargin: 4
-            text: root.monitor?.activeWorkspace?.lastIpcObject?.lastwindowtitle ?? ""
+            text: root.appName
         }
         Rectangle {
             Layout.fillHeight: true; implicitWidth: rightRow.implicitWidth; color: Theme.background
             Row {
                 id: rightRow; height: parent.height; spacing: 4
                 FlatButton {
+                    id: music
+                    readonly property string song: [root.player?.trackTitle, root.player?.trackArtist].filter(Boolean).join(" - ")
                     visible: !!root.player && !!root.player.trackTitle
-                    compact: true; width: Math.min(240, implicitWidth)
-                    text: "[" + (root.player?.trackTitle ?? "") + " ]"
+                    compact: true; width: Math.min(480, root.width * 0.3, implicitWidth)
+                    text: "[" + (root.player?.isPlaying ? " " : " ") + song + "]"
+                    contentItem: RowLayout {
+                        spacing: 0
+                        Label { text: "[" + (root.player?.isPlaying ? " " : " ") }
+                        Label { text: music.song; Layout.fillWidth: true }
+                        Label { text: "]" }
+                    }
                     onClicked: if (root.player?.canTogglePlaying) root.player.togglePlaying()
                     MouseArea { anchors.fill: parent; acceptedButtons: Qt.NoButton; onWheel: event => { if (event.angleDelta.y > 0 && root.player.canGoNext) root.player.next(); else if (event.angleDelta.y < 0 && root.player.canGoPrevious) root.player.previous(); } }
                 }

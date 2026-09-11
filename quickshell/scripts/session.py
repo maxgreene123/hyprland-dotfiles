@@ -98,7 +98,7 @@ def install():
             staging = CONFIG / 'quickshell.installing'
             if staging.exists():
                 raise RuntimeError(f'Remove the previous staging directory first: {staging}')
-            shutil.copytree(ROOT, staging, ignore=shutil.ignore_patterns('.git', '__pycache__', '*.pyc', '.qt'))
+            shutil.copytree(ROOT, staging, ignore=shutil.ignore_patterns('.git', '__pycache__', '*.pyc', '.qt', 'tests'))
             remove(DEST)
             staging.rename(DEST)
         UNIT.parent.mkdir(parents=True, exist_ok=True)
