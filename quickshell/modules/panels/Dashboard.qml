@@ -39,7 +39,7 @@ ColumnLayout {
                     }
                 }
             }
-            Item { Layout.fillHeight: true }
+            TodoList { Layout.fillWidth: true; Layout.fillHeight: true }
         }
         ColumnLayout {
             Layout.preferredWidth: 290; Layout.fillHeight: true; spacing: 16

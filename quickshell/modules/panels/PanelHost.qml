@@ -43,7 +43,7 @@ PanelWindow {
                     columnSpacing: 4; rowSpacing: 4
                     FlatButton { Layout.fillWidth: true; text: "Quick controls"; active: ShellState.panel === "controls"; onClicked: ShellState.panel = "controls" }
                     FlatButton { Layout.fillWidth: true; text: "Wi-Fi / Bluetooth"; active: ShellState.panel === "connections"; onClicked: { ShellState.controlSection = ""; ShellState.panel = "connections"; } }
-                    FlatButton { Layout.fillWidth: true; text: "Apps"; active: ShellState.panel === "settings"; onClicked: ShellState.panel = "settings" }
+                    FlatButton { Layout.fillWidth: true; text: "Other"; active: ShellState.panel === "settings"; onClicked: ShellState.panel = "settings" }
                 }
                 Label { visible: ShellState.message !== ""; text: ShellState.message; color: Theme.warning; wrapMode: Text.Wrap; elide: Text.ElideNone; Layout.fillWidth: true }
                 Loader {

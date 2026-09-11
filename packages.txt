@@ -35,6 +35,7 @@ htop
 hyprland
 hyprland-plugin-csgo-vulkan-fix
 hyprlock
+hyprmoncfg-bin
 hyprpaper
 hyprshade
 inotify-tools

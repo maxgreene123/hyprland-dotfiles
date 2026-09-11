@@ -152,6 +152,8 @@ hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("quickshell ipc call shell settin
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("quickshell ipc call shell dashboard"))
 
 -- Window management
+dofile(os.getenv("HOME") .. "/.config/hypr/scripts/altswitch.lua")
+
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
@@ -220,3 +222,6 @@ hl.window_rule({
     immediate  = true,
     fullscreen = true,
 })
+
+-- Added by hyprmoncfg: its generated monitor rules load last, so nothing before this can override the applied layout.
+do local path = (os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") .. "/.config") .. "/hypr/hyprmoncfg-monitors.lua"; local file = io.open(path, "r"); if file then file:close(); dofile(path) end end

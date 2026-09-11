@@ -9,15 +9,20 @@ at `0940abdb65749b1796aa4755eea35a161f92cb64`; MIT attribution is in `LICENSE`.
 - `[MENU]` / `Super+R`: application launcher.
 - `[SET]` / `Super+N`: quick controls with notifications below.
 - `SET → Wi-Fi / Bluetooth`: network and device controls.
-- `SET → Apps` / `Super+Comma`: default apps and file types.
+- `SET → Other` / `Super+Comma`: hyprmoncfg, default apps, and file types.
 - `SET → Quick controls → Lock`: Hyprlock, beside the other session actions. Clock: calendar and media.
 - `Super+Shift+L`: dashboard with CPU, memory, and GPU usage on one line; App launcher appears above Control center.
 - `Super+Shift+J` / `Super+Shift+K`: vibrance on / off.
+- `Alt+Tab` / `Alt+Shift+Tab`: cycle the window switcher with icons; release Alt to switch, `Alt+Escape` to cancel.
+- Dashboard TODO widget: view, add, toggle, undo, or open the vault's existing `TODO.md` below the calendar.
 
 Panels follow the clicked or focused monitor. Clocks use 12-hour time.
 Spotify artwork, Papirus-Dark icons, and square panels share `config/Theme.qml`.
 DP-2 uses workspaces 1–10; HDMI-A-1 uses 11–20.
 The bar shows app names and `[playback icon Song - Artist]` up to 480px wide.
+The SET label stays `[SET]` regardless of unread notification count.
+
+The window switcher is adapted from [omarchy-altswitch](https://github.com/Pablo-Merino/omarchy-altswitch); see `modules/switcher/LICENSE`. The TODO widget is inspired by [obsidian-daily-qs](https://github.com/LucaNerlich/obsidian-daily-qs), adapted to an existing TODO file with a Python helper. It detects the open Obsidian vault, with optional `OBSIDIAN_VAULT_ROOT` or `OBSIDIAN_TODO_FILE` overrides. It does not create daily notes. Full shortcut reference: `../KEYBINDS.md`.
 
 ## Installation
 
@@ -69,6 +74,8 @@ from the installed config.
 ```sh
 python3 tests/test_bridge.py
 python3 tests/test_session.py
+python3 tests/test_todos.py
+lua tests/test_altswitch.lua
 QT_QPA_PLATFORMTHEME= QT_QPA_PLATFORM=offscreen dbus-run-session \
   --config-file=tests/session-bus.conf -- python3 tests/test_notifications.py
 ```

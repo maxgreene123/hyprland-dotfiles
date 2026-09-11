@@ -7,12 +7,14 @@ import Quickshell.Services.Notifications
 import "services"
 import "modules/bar"
 import "modules/panels"
+import "modules/switcher"
 ShellRoot {
     readonly property var bridge: DesktopBridge
     BarWrapper {}
     PanelHost {}
     NotificationPopups {}
     VolumeOverlay {}
+    AltSwitch {}
     Loader {
         active: !ShellState.preview
         sourceComponent: NotificationServer {

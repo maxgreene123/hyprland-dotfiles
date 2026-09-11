@@ -44,6 +44,11 @@ FocusScope {
     ColumnLayout {
         anchors.fill: parent; spacing: 14
         RowLayout {
+            FlatButton { text: "hyprmoncfg"; iconName: "video-display"; iconGroup: "devices"; onClicked: ShellState.command(["uwsm", "app", "--", "alacritty", "--class", "TUI.float", "-e", "hyprmoncfg"]) }
+            Label { text: "Monitor layouts and profiles"; color: Theme.muted; Layout.fillWidth: true }
+        }
+        Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: Theme.selected }
+        RowLayout {
             FlatButton { text: "Default apps"; active: root.tab === "defaults"; onClicked: { root.tab = "defaults"; root.select(root.roles[0]); } }
             FlatButton { text: "File types"; active: root.tab === "types"; onClicked: { root.tab = "types"; root.selection = null; root.details = null; root.requestGeneration++; } }
             Item { Layout.fillWidth: true }

@@ -2,6 +2,8 @@
 
 Current Arch Linux desktop configuration using Hyprland Lua, UWSM, Quickshell, Adwaita dark styling, and Papirus-Dark icons.
 
+See [KEYBINDS.md](KEYBINDS.md) for every configured keyboard shortcut.
+
 ## Layout
 
 - `hypr/`: compositor, lock screen, wallpaper, and helper scripts.
@@ -76,10 +78,16 @@ Waybar, Rofi, and Mako are replaced; remove those packages and old autostarts.
 Existing app associations and network profiles are preserved.
 
 `Super+R` opens the launcher. `[SET]` or `Super+N` opens quick controls with
-notifications below. Wi-Fi/Bluetooth and Apps have separate SET tabs.
-`Super+Comma` opens Apps; Lock is beside Suspend, Log out, and Power off in quick controls.
+notifications below. Wi-Fi/Bluetooth and Other have separate SET tabs.
+`Super+Comma` opens Other, containing hyprmoncfg, Default apps, and File types. Lock is beside Suspend, Log out, and Power off in quick controls.
 `Super+Shift+L` opens the dashboard with CPU, memory, and GPU usage on one line. App launcher appears above Control center.
 `Super+Shift+J` turns vibrance on; `Super+Shift+K` turns it off.
+
+`Alt+Tab` opens a themed window switcher with application icons. Hold Alt and press Tab to cycle; add Shift to go backward. Release Alt to focus the selected window. `Alt+Escape` cancels. It includes normal workspaces on both monitors. The switcher is adapted from [Pablo-Merino/omarchy-altswitch](https://github.com/Pablo-Merino/omarchy-altswitch) at `8f54d684c89d66ecf51e6e5a9c5c574758de79be`; its MIT license is in `quickshell/modules/switcher/LICENSE`.
+
+The dashboard embeds a TODO widget below the calendar, inspired by [obsidian-daily-qs](https://github.com/LucaNerlich/obsidian-daily-qs). This version reads and edits the existing `TODO.md` in your open Obsidian vault, using a Python helper instead of the daily-note backend. Pending tasks appear first. Add tasks, toggle checkboxes, undo the last widget edit, or open that exact file in Obsidian. Notes are refreshed while the dashboard is open; displaying the widget never creates a daily note.
+
+The vault is detected from Obsidian's local settings. Set `OBSIDIAN_VAULT_ROOT` to override the vault, or `OBSIDIAN_TODO_FILE` to use another absolute file path, in the graphical session environment. The file must already exist. TODO backups for Undo stay local under `~/.local/state/maxshell/todos/`; newer external edits block Undo. Your vault and note contents are not part of this repository or the restore installer.
 
 Launch Hyprland through UWSM. Portals use D-Bus/systemd activation; no portal startup script is needed. The CS2 plugin is package-managed, so disable Topgrade's `hyprpm` step if using this setup.
 
@@ -102,5 +110,8 @@ These checks use temporary directories and fake package commands; they do not in
 ```sh
 python3 tests/test_install.py
 python3 quickshell/tests/test_session.py
+python3 quickshell/tests/test_todos.py
 bash -n install-packages.sh flatpak-packages.sh
 ```
+
+Run `lua tests/test_altswitch.lua` from `quickshell/` to check the switcher without changing real window focus.

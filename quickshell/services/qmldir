@@ -4,3 +4,4 @@ singleton Players Players.qml
 singleton Notifs Notifs.qml
 singleton DesktopBridge DesktopBridge.qml
 singleton ShellState ShellState.qml
+singleton ObsidianTodos ObsidianTodos.qml
