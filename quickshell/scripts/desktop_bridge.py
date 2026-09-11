@@ -259,6 +259,27 @@ class Network:
             None, finished, None)
 
 
+def gpu_usage(drm_root=Path('/sys/class/drm')):
+    """Prefer the boot GPU; fall back to readable DRM telemetry."""
+    readings = []
+    for card in drm_root.glob('card[0-9]*'):
+        if not card.name[4:].isdigit():
+            continue
+        device = card / 'device'
+        try:
+            primary = (device / 'boot_vga').read_text().strip() == '1'
+        except OSError:
+            primary = False
+        try:
+            usage = int((device / 'gpu_busy_percent').read_text())
+            if not 0 <= usage <= 100:
+                usage = None
+        except (OSError, ValueError):
+            usage = None
+        readings.append((primary, usage))
+    return max(readings, key=lambda item: (item[0], item[1] is not None))[1] if readings else None
+
+
 class Bridge:
     def __init__(self):
         self.defaults = Defaults()
@@ -345,7 +366,7 @@ class Bridge:
                 if p.name != 'lo':
                     links.append({'name': p.name, 'state': (p / 'operstate').read_text().strip()})
             self.event('stats', {'cpu': round(usage), 'memory': round(100 * (1 - mem['MemAvailable'] / mem['MemTotal'])),
-                'temperature': temperature, 'links': links})
+                'gpu': gpu_usage(), 'temperature': temperature, 'links': links})
         except (OSError, ValueError, KeyError):
             pass
         return True

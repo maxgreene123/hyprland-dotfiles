@@ -11,6 +11,8 @@ at `0940abdb65749b1796aa4755eea35a161f92cb64`; MIT attribution is in `LICENSE`.
 - `SET → Wi-Fi / Bluetooth`: network and device controls.
 - `SET → Apps` / `Super+Comma`: default apps and file types.
 - `SET → Lock`: Hyprlock. Clock: calendar and media.
+- `Super+Shift+L`: dashboard with CPU, GPU, and memory usage.
+- `Super+Shift+J` / `Super+Shift+K`: vibrance on / off.
 
 Panels follow the clicked or focused monitor. Clocks use 12-hour time.
 Spotify artwork, Papirus-Dark icons, and square panels share `config/Theme.qml`.

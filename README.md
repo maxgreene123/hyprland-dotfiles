@@ -43,6 +43,8 @@ Existing app associations and network profiles are preserved.
 `Super+R` opens the launcher. `[SET]` or `Super+N` opens quick controls with
 notifications below. Wi-Fi/Bluetooth and Apps have separate SET tabs.
 `Super+Comma` opens Apps; Lock stays in the SET header.
+`Super+Shift+L` opens the dashboard with GPU usage.
+`Super+Shift+J` turns vibrance on; `Super+Shift+K` turns it off.
 
 Launch Hyprland through UWSM. Portals use D-Bus/systemd activation; no portal startup script is needed. The CS2 plugin is package-managed, so disable Topgrade's `hyprpm` step if using this setup.
 

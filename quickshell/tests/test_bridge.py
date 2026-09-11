@@ -73,6 +73,40 @@ class DefaultsTests(unittest.TestCase):
         self.assertTrue(pdf['name'])
 
 
+class GpuTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.drm = Path(self.temp.name)
+
+    def card(self, name, usage, primary=False):
+        device = self.drm / name / 'device'
+        device.mkdir(parents=True)
+        (device / 'boot_vga').write_text('1' if primary else '0')
+        if usage is not None:
+            (device / 'gpu_busy_percent').write_text(str(usage))
+        return device
+
+    def test_display_gpu_wins_over_idle_integrated_gpu(self):
+        self.card('card0', 0)
+        self.card('card1', 42, primary=True)
+        self.assertEqual(b.gpu_usage(self.drm), 42)
+
+    def test_zero_is_valid_but_missing_telemetry_is_unavailable(self):
+        self.assertIsNone(b.gpu_usage(self.drm))
+        device = self.card('card1', 0, primary=True)
+        self.assertEqual(b.gpu_usage(self.drm), 0)
+        self.card('card0', 30)
+        (device / 'gpu_busy_percent').unlink()
+        self.assertIsNone(b.gpu_usage(self.drm))
+
+    def test_invalid_reading_does_not_escape_reader(self):
+        device = self.card('card1', 'unavailable', primary=True)
+        self.assertIsNone(b.gpu_usage(self.drm))
+        (device / 'gpu_busy_percent').write_text('101')
+        self.assertIsNone(b.gpu_usage(self.drm))
+
+
 class Invocation:
     def __init__(self): self.value = None; self.error = None
     def return_value(self, value): self.value = value.unpack() if value else ()

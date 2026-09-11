@@ -149,6 +149,7 @@ hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("uwsm app -- " .. scripts .. 
 -- Quickshell panels
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("quickshell ipc call shell notifications"))
 hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("quickshell ipc call shell settings"))
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("quickshell ipc call shell dashboard"))
 
 -- Window management
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
@@ -169,8 +170,8 @@ hl.bind(mainMod .. " + SHIFT + N", gammaTemp(2500))
 hl.bind(mainMod .. " + SHIFT + M", gammaTemp(6500))
 
 -- Disable damage tracking to prevent shader flicker.
-hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd(scripts .. "/vibrance.sh on"))
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd(scripts .. "/vibrance.sh off"))
+hl.bind(mainMod .. " + SHIFT + J", hl.dsp.exec_cmd(scripts .. "/vibrance.sh on"))
+hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd(scripts .. "/vibrance.sh off"))
 
 -- Move windows
 local moveKeys = { a = "l", d = "r", w = "u", s = "d" }

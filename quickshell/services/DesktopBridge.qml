@@ -6,7 +6,7 @@ Singleton {
     id: root
     property bool ready: false
     property var network: ({ available: false, devices: [] })
-    property var stats: ({ cpu: 0, memory: 0, temperature: null, links: [] })
+    property var stats: ({ cpu: 0, memory: 0, gpu: null, temperature: null, links: [] })
     property var auth: null
     property int serial: 0
     property var callbacks: ({})
