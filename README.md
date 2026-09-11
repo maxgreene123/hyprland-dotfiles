@@ -79,7 +79,7 @@ Existing app associations and network profiles are preserved.
 
 `Super+R` opens the launcher. `[SET]` or `Super+N` opens quick controls with
 notifications below. Wi-Fi/Bluetooth and Other have separate SET tabs.
-`Super+Comma` opens Other, containing hyprmoncfg, Default apps, and File types. Lock is beside Suspend, Log out, and Power off in quick controls.
+`Super+Comma` opens Other, containing Default apps, File types, and Monitors (hyprmoncfg), in that order. Lock is beside Suspend, Log out, and Power off in quick controls.
 `Super+Shift+L` opens the dashboard with CPU, memory, and GPU usage on one line. App launcher appears above Control center.
 `Super+Shift+J` turns vibrance on; `Super+Shift+K` turns it off.
 

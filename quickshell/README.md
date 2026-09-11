@@ -9,7 +9,7 @@ at `0940abdb65749b1796aa4755eea35a161f92cb64`; MIT attribution is in `LICENSE`.
 - `[MENU]` / `Super+R`: application launcher.
 - `[SET]` / `Super+N`: quick controls with notifications below.
 - `SET → Wi-Fi / Bluetooth`: network and device controls.
-- `SET → Other` / `Super+Comma`: hyprmoncfg, default apps, and file types.
+- `SET → Other` / `Super+Comma`: default apps, file types, and Monitors (hyprmoncfg).
 - `SET → Quick controls → Lock`: Hyprlock, beside the other session actions. Clock: calendar and media.
 - `Super+Shift+L`: dashboard with CPU, memory, and GPU usage on one line; App launcher appears above Control center.
 - `Super+Shift+J` / `Super+Shift+K`: vibrance on / off.

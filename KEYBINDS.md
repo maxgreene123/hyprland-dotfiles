@@ -12,7 +12,7 @@
 | Super + Shift + Z | Open the default text editor. |
 | Super + R | Open the app launcher. |
 | Super + N | Open SET quick controls and notifications. |
-| Super + Comma | Open Other: hyprmoncfg, default apps, and file types. |
+| Super + Comma | Open Other: default apps, file types, and Monitors (hyprmoncfg). |
 | Super + Shift + L | Open the dashboard, calendar, and TODO list. |
 | Super + Shift + P | Select a screenshot region and edit it in Swappy. |
 
