@@ -46,7 +46,7 @@ FocusScope {
         RowLayout {
             FlatButton { text: "Default apps"; active: root.tab === "defaults"; onClicked: { root.tab = "defaults"; root.select(root.roles[0]); } }
             FlatButton { text: "File types"; active: root.tab === "types"; onClicked: { root.tab = "types"; root.selection = null; root.details = null; root.requestGeneration++; } }
-            FlatButton { text: "Monitors"; iconName: "video-display"; iconGroup: "devices"; onClicked: ShellState.command(["uwsm", "app", "--", "alacritty", "--class", "TUI.float", "-e", "hyprmoncfg"]) }
+            FlatButton { text: "Monitors"; onClicked: ShellState.command(["uwsm", "app", "--", "alacritty", "--class", "TUI.float", "-e", "hyprmoncfg"]) }
             Item { Layout.fillWidth: true }
         }
         Label { text: "Choose which apps open links, folders, and files."; color: Theme.muted; Layout.fillWidth: true }
