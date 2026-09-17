@@ -26,30 +26,38 @@ The window switcher is adapted from [omarchy-altswitch](https://github.com/Pablo
 
 ## Installation
 
-Dependencies: Quickshell 0.3.1+, Qt 6.10+, Python/PyGObject, UWSM, iwd,
-BlueZ/Blueman, PipeWire/WirePlumber, Papirus-Dark, and JetBrainsMono Nerd Font.
+Use the repository's single installer from the repository root:
 
 ```sh
-python3 scripts/session.py install
+python3 install/install.py
 ```
 
-From a TTY without a running graphical session, add `--no-start`. This installs
-the files without contacting systemd, D-Bus, or the compositor. The full dotfiles
-restore script (`../scripts/install.py`) uses this mode.
+It installs the curated desktop packages and matching Hyprland configuration as
+well as Quickshell. Use `--dry-run` to preview, or `--config-only` when packages
+are already installed. Installation does not contact the compositor or start
+services, so it works from a TTY.
 
-Installs into `~/.config/quickshell`, `~/.config/systemd/user`, and
-`~/.local/share/dbus-1/services`. Hyprland Lua starts `quickshell.service`.
-The dotfiles repository includes the matching startup and shortcut bindings.
-App associations and existing iwd profiles remain unchanged.
+Quickshell installs into `~/.config/quickshell`, `~/.config/systemd/user`, and
+`~/.local/share/dbus-1/services`. Hyprland starts `quickshell.service` at login.
+Existing app associations and iwd profiles remain unchanged by the shell installer.
+The full installer fills missing browser, file-manager, and editor defaults.
+
+For runtime checks:
 
 ```sh
 systemctl --user restart quickshell.service
 journalctl --user -u quickshell.service -b
-python3 ~/.config/quickshell/scripts/session.py rollback
 ```
 
-Rollback restores the last Quickshell installation. Retired Waybar/Rofi/Mako
-files are archived separately under `~/.local/state/maxshell/retired-*`.
+To restore the last Quickshell snapshot, run from the repository root:
+
+```sh
+python3 install/install.py --rollback-quickshell
+```
+
+Rollback restores files without starting services; log out and back in afterward.
+Snapshots live under `~/.local/state/maxshell/installs/`. The installer internals
+live in `install/quickshell.py` and are not copied into the running shell.
 
 ## Source
 

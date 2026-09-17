@@ -105,7 +105,12 @@ hl.config({
 
 -- Plugins
 
-hl.plugin.load(os.getenv("HOME") .. "/.local/lib/hyprland/libhyprcsgo.so")
+local csgoPlugin = os.getenv("HOME") .. "/.local/lib/hyprland/libhyprcsgo.so"
+local csgoFile = io.open(csgoPlugin, "r")
+if csgoFile then
+    csgoFile:close()
+    hl.plugin.load(csgoPlugin)
+end
 
 -- Apply plugin settings only when its Lua API is available.
 if hl.plugin.csgo_vulkan_fix then

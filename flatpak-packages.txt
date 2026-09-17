@@ -1,5 +1,0 @@
-com.obsproject.Studio
-com.patrikx3.onenote
-com.stremio.Stremio
-io.missioncenter.MissionCenter
-org.vinegarhq.Sober

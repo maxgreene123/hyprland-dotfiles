@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Install Quickshell in XDG folders, or restore its last installation."""
-import argparse
+"""Internal Quickshell installation and rollback support for install.py."""
 import datetime
 import json
 import os
@@ -9,7 +8,7 @@ import shutil
 import subprocess
 import time
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[1] / 'quickshell'
 CONFIG = Path(os.environ.get('XDG_CONFIG_HOME', Path.home() / '.config'))
 DATA = Path(os.environ.get('XDG_DATA_HOME', Path.home() / '.local/share'))
 STATE = Path(os.environ.get('XDG_STATE_HOME', Path.home() / '.local/state')) / 'maxshell'
@@ -124,23 +123,3 @@ def install(start=True):
     except Exception:
         restore(backup, start=start)
         raise
-
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['install', 'rollback'])
-    parser.add_argument('--no-start', action='store_true', help='Only change files; do not contact systemd, D-Bus, or the compositor (for TTY installs).')
-    args = parser.parse_args()
-    if args.action == 'install':
-        install(start=not args.no_start)
-    else:
-        marker = STATE / 'last-install'
-        if not marker.exists():
-            raise RuntimeError('No installation backup found.')
-        restore(Path(marker.read_text().strip()), start=not args.no_start)
-        marker.unlink()
-        print('Previous Quickshell installation restored. App defaults preserved.')
-
-
-if __name__ == '__main__':
-    main()

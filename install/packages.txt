@@ -1,0 +1,61 @@
+# Hyprland desktop and Quickshell panels
+hyprland
+quickshell
+uwsm
+hyprlock
+hyprpaper
+hyprmoncfg-bin
+hyprshade
+wl-gammarelay-rs
+xorg-xwayland
+
+# Terminal and shell
+alacritty
+zsh
+zsh-autosuggestions
+zsh-syntax-highlighting
+
+# Quickshell helpers and desktop integration
+python-gobject
+polkit-gnome
+xdg-utils
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+xembed-sni-proxy-standalone-git
+xorg-xrandr
+
+# Apps opened by shortcuts or Quickshell widgets
+brave-origin-bin
+thunar
+gvfs
+zed
+obsidian
+spotify
+
+# Audio, Wi-Fi, Bluetooth, and the configured VPN tray
+pipewire
+pipewire-alsa
+pipewire-pulse
+wireplumber
+iwd
+bluez
+bluez-utils
+blueman
+tailscale
+
+# Screenshots and clipboard
+grim
+slurp
+swappy
+wl-clipboard
+libnotify
+
+# Fonts, icons, GTK appearance, and theme settings
+adwaita-fonts
+adwaita-icon-theme
+gnome-themes-extra
+papirus-icon-theme
+ttf-jetbrains-mono-nerd
+noto-fonts
+dconf
+gsettings-desktop-schemas
