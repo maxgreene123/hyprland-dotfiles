@@ -2,7 +2,6 @@ import QtQuick 6.10
 import QtQuick.Layouts 6.10
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Services.SystemTray
 import "../../components"
 import "../../config"
 import "../../services"
@@ -70,26 +69,7 @@ Item {
                 Label { visible: root.stats.temperature !== null; height: parent.height; verticalAlignment: Text.AlignVCenter; color: root.stats.temperature >= 80 ? Theme.warning : Theme.text; text: "[" + root.stats.temperature + "°C]" }
                 FlatButton { compact: true; text: "[" + Qt.formatDateTime(clock.date, "hh:mm AP") + "]"; onClicked: ShellState.toggle("dashboard", root.screen) }
                 FlatButton { compact: true; text: "[SET]"; onClicked: ShellState.toggleSet(root.screen) }
-                Repeater {
-                    model: SystemTray.items.values.filter(item => !/blueman|bluetooth|networkmanager|nm-applet/i.test(item.id + " " + item.title))
-                    Item {
-                        id: tray
-                        required property var modelData
-                        width: 24; height: Theme.barHeight
-                        Image { anchors.centerIn: parent; width: 16; height: 16; source: tray.modelData.icon; fillMode: Image.PreserveAspectFit; sourceSize: Qt.size(24, 24) }
-                        MouseArea {
-                            anchors.fill: parent; acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
-                            onClicked: event => {
-                                if (event.button === Qt.RightButton || tray.modelData.onlyMenu) {
-                                    if (tray.modelData.hasMenu) trayMenu.open();
-                                } else if (event.button === Qt.MiddleButton) tray.modelData.secondaryActivate();
-                                else tray.modelData.activate();
-                            }
-                            onWheel: event => tray.modelData.scroll(event.angleDelta.y, false)
-                        }
-                        QsMenuAnchor { id: trayMenu; menu: tray.modelData.menu; anchor.item: tray; anchor.edges: Edges.Bottom; anchor.gravity: Edges.Bottom }
-                    }
-                }
+                Tray {}
             }
         }
     }

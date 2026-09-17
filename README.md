@@ -16,6 +16,25 @@ See [KEYBINDS.md](KEYBINDS.md) for every configured keyboard shortcut.
 - `packages.txt`, `flatpak-packages.txt`: installed explicit Arch/AUR packages and system Flatpak apps. These describe this machine, not a minimal dependency list.
 - `scripts/install.py`: restore packages, configuration, wallpapers, and user services after reinstalling Arch.
 
+## Desktop maintenance
+
+The bar keeps tray interactions in `quickshell/modules/bar/Tray.qml`, including
+VMware filtering and legacy XEmbed menu support. The latter uses
+`xembed-sni-proxy-standalone-git` and `xorg-xrandr`, included in the package list.
+VMware itself is not removed.
+
+System metrics refresh every five seconds. Network state updates through iwd
+signals, with a 60-second fallback refresh. External TODO edits refresh every ten
+seconds while the dashboard is open; opening the dashboard and local edits
+refresh immediately. Polling intervals live in
+`quickshell/scripts/desktop_bridge.py` and `quickshell/services/ObsidianTodos.qml`.
+
+Edit colors and sizing in `quickshell/config/Theme.qml`, startup and shortcuts in
+`hypr/hyprland.lua`, and terminal settings in `zshrc`. Quickshell reloads QML
+automatically; restart `quickshell.service` after changing Python helpers. Open a
+new terminal after changing `.zshrc`. Generated `hyprmoncfg-monitors.lua` stays
+local; the tracked Hyprland configuration loads it when present.
+
 ## Restore after a reset
 
 Start with an installed x86_64 Arch Linux system, working internet, and a regular user with sudo access. Run this from that user's TTY before starting Hyprland:

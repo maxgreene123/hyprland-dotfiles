@@ -58,7 +58,7 @@ Singleton {
         target: ShellState
         function onPanelChanged() { if (ShellState.panel === "dashboard") root.refresh(); }
     }
-    Timer { interval: 2000; repeat: true; running: ShellState.panel === "dashboard"; onTriggered: root.refresh() }
+    Timer { interval: 10000; repeat: true; running: ShellState.panel === "dashboard"; onTriggered: root.refresh() }
     Process {
         id: worker
         stdout: SplitParser {

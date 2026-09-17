@@ -27,6 +27,8 @@ local scripts     = os.getenv("HOME") .. "/.config/hypr/scripts"
 -- Autostart
 
 hl.on("hyprland.start", function()
+    -- Claims _NET_SYSTEM_TRAY_S0 so XEmbed icons reach the SNI tray.
+    hl.exec_cmd("uwsm app -- xembedsniproxy")
     hl.exec_cmd("uwsm app -- blueman-applet")
     hl.exec_cmd("uwsm app -- wl-gammarelay-rs")
     hl.exec_cmd("uwsm app -- /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")

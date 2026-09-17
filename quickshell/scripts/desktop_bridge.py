@@ -5,14 +5,15 @@ import glob
 import json
 import os
 from pathlib import Path
-import signal
-import subprocess
 import sys
-import time
 
 import gi
 gi.require_version('Gio', '2.0')
 from gi.repository import Gio, GLib
+
+# Keep bar telemetry lightweight; iwd signals provide immediate network updates.
+STATS_INTERVAL_SECONDS = 5
+NETWORK_RECONCILE_SECONDS = 60
 
 ROLES = {
     'browser': ['x-scheme-handler/http', 'x-scheme-handler/https', 'text/html', 'application/xhtml+xml'],
@@ -294,8 +295,8 @@ class Bridge:
         except GLib.Error as error:
             self.event('network', {'available': False, 'devices': [], 'error': str(error)})
         GLib.io_add_watch(sys.stdin.fileno(), GLib.IO_IN | GLib.IO_HUP, self.read)
-        GLib.timeout_add_seconds(2, self.stats)
-        GLib.timeout_add_seconds(10, self.refresh_network)
+        GLib.timeout_add_seconds(STATS_INTERVAL_SECONDS, self.stats)
+        GLib.timeout_add_seconds(NETWORK_RECONCILE_SECONDS, self.refresh_network)
         self.stats()
         self.event('ready', {})
 

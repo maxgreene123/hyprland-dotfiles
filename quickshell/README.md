@@ -54,6 +54,7 @@ files are archived separately under `~/.local/state/maxshell/retired-*`.
 ## Source
 
 - `modules/`: bar, launcher, SET pages, dashboard, and volume overlay.
+- `modules/bar/Tray.qml`: tray icons, filtering, and menu interactions.
 - `components/`: shared controls and notification cards.
 - `services/`: native integrations and shared state.
 - `scripts/desktop_bridge.py`: GIO defaults, iwd, and system metrics.
@@ -82,3 +83,14 @@ QT_QPA_PLATFORMTHEME= QT_QPA_PLATFORM=offscreen dbus-run-session \
 
 For a preview without claiming notifications or bar space:
 `MAXSHELL_PREVIEW=1 quickshell -p .`.
+
+## Resource use
+
+Bar metrics refresh every five seconds. Network changes arrive through iwd
+signals, with a 60-second reconciliation timer as a fallback. The TODO helper
+refreshes every ten seconds while the dashboard is open, and immediately when
+opening the dashboard or editing a task. Hidden panels are unloaded.
+
+The tray hides VMware, Bluetooth, and NetworkManager icons. Bluetooth and
+network controls remain available in SET. VMware itself and its virtual machines
+are not removed.

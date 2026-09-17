@@ -119,6 +119,8 @@ wl-clipboard
 wl-gammarelay-rs
 xdg-desktop-portal-hyprland
 xdg-desktop-portal-wlr
+xembed-sni-proxy-standalone-git
+xorg-xrandr
 yay
 yay-debug
 yubico-authenticator-bin
