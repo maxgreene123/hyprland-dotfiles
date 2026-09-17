@@ -99,6 +99,5 @@ signals, with a 60-second reconciliation timer as a fallback. The TODO helper
 refreshes every ten seconds while the dashboard is open, and immediately when
 opening the dashboard or editing a task. Hidden panels are unloaded.
 
-The tray hides VMware, Bluetooth, and NetworkManager icons. Bluetooth and
-network controls remain available in SET. VMware itself and its virtual machines
-are not removed.
+The tray hides Bluetooth and NetworkManager icons. Bluetooth and
+network controls remain available in SET.
