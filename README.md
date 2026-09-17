@@ -24,8 +24,6 @@ See [KEYBINDS.md](KEYBINDS.md) for shortcuts and the [Quickshell README](quicksh
 
 The full list is in [install/packages.txt](install/packages.txt). The installer also sets up yay and its build tools, copies the dotfiles and wallpapers, and installs Quickshell's service. Missing browser, file-manager, and editor defaults are filled without replacing existing valid choices.
 
-VMware, games, unrelated personal apps, Flatpaks, kernels, bootloaders, and graphics drivers are excluded. Existing packages are not removed. No Brave policy is installed.
-
 ## Install
 
 Requires an installed **x86_64 Arch Linux** system with internet, working graphics drivers, and a regular user with sudo access. Run from a TTY before starting Hyprland:
