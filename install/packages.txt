@@ -4,7 +4,6 @@ quickshell
 uwsm
 hyprlock
 hyprpaper
-hyprmoncfg-bin
 hyprshade
 wl-gammarelay-rs
 xorg-xwayland

@@ -1,10 +1,14 @@
 -- Monitors
 
-local monMain = "DP-2"       -- 1080p144, workspaces 1-10
+local monMain = "DP-2"       -- 1080p280, workspaces 1-10
 local monSide = "HDMI-A-1"   -- 4K60,     workspaces 11-20
 
-hl.monitor({ output = monMain, mode = "1920x1080@144", position = "0x0",    scale = 1 })
-hl.monitor({ output = monSide, mode = "3840x2160@60",  position = "1920x0", scale = 1.5 })
+-- The VG259QM's 280 Hz overclock never appears in its mode list: the EDID
+-- flags that timing as stereo 3D, so the kernel drops it. This modeline is
+-- EDID DTD 1 copied verbatim (279.857 Hz). Monitor tools that pick from the
+-- mode list (hyprmoncfg was removed for this) snap it back to 239.76.
+hl.monitor({ output = monMain, mode = "modeline 628 1920 1968 2028 2040 1080 1090 1092 1100 +hsync -vsync", position = "0x123", scale = 1 })
+hl.monitor({ output = monSide, mode = "3840x2160@60", position = "1920x0", scale = 1.5 })
 
 hl.config({
     xwayland = {
@@ -215,11 +219,11 @@ end
 
 -- Assign workspaces to monitors.
 for ws = 1, 10 do
-    hl.workspace_rule({ workspace = ws, monitor = monMain })
+    hl.workspace_rule({ workspace = ws, monitor = monMain, default = ws == 1, persistent = ws == 1 })
 end
 
 for ws = 11, 20 do
-    hl.workspace_rule({ workspace = ws, monitor = monSide })
+    hl.workspace_rule({ workspace = ws, monitor = monSide, default = ws == 11, persistent = ws == 11 })
 end
 
 hl.window_rule({
@@ -229,6 +233,3 @@ hl.window_rule({
     immediate  = true,
     fullscreen = true,
 })
-
--- Added by hyprmoncfg: its generated monitor rules load last, so nothing before this can override the applied layout.
-do local path = (os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") .. "/.config") .. "/hypr/hyprmoncfg-monitors.lua"; local file = io.open(path, "r"); if file then file:close(); dofile(path) end end
