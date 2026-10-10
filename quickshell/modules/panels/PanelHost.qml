@@ -15,8 +15,8 @@ PanelWindow {
     WlrLayershell.namespace: "maxshell-panel"
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: visible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
-    readonly property bool narrowPanel: ["controls", "connections"].includes(ShellState.panel)
-    readonly property bool sidePanel: narrowPanel || ShellState.panel === "settings"
+    readonly property bool narrowPanel: ["controls", "connections", "settings"].includes(ShellState.panel)
+    readonly property bool sidePanel: narrowPanel
     MouseArea { anchors.fill: parent; onClicked: ShellState.close() }
     Rectangle {
         id: frame

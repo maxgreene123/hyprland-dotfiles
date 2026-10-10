@@ -48,11 +48,12 @@ FocusScope {
             FlatButton { text: "File types"; active: root.tab === "types"; onClicked: { root.tab = "types"; root.selection = null; root.details = null; root.requestGeneration++; } }
             Item { Layout.fillWidth: true }
         }
-        Label { text: "Choose which apps open links, folders, and files."; color: Theme.muted; Layout.fillWidth: true }
-        RowLayout {
-            Layout.fillHeight: true; Layout.fillWidth: true; spacing: 20
+        Label { text: "Choose which apps open links, folders, and files."; color: Theme.muted; Layout.fillWidth: true; wrapMode: Text.Wrap; elide: Text.ElideNone }
+        ColumnLayout {
+            id: body
+            Layout.fillHeight: true; Layout.fillWidth: true; spacing: 14
             ColumnLayout {
-                Layout.preferredWidth: 260; Layout.fillHeight: true
+                Layout.fillWidth: true; Layout.preferredHeight: body.height * 0.45
                 FlatField { id: search; visible: root.tab === "types"; Layout.fillWidth: true; placeholderText: "Extension or file type…" }
                 ListView {
                     id: typeList; Layout.fillWidth: true; Layout.fillHeight: true; clip: true; model: root.rows
@@ -67,7 +68,7 @@ FocusScope {
                 }
                 Label { visible: root.tab === "types"; text: root.rows.length + " file types"; color: Theme.muted; font.pixelSize: 12 }
             }
-            Rectangle { Layout.fillHeight: true; width: 1; color: Theme.selected }
+            Rectangle { Layout.fillWidth: true; height: 1; color: Theme.selected }
             ColumnLayout {
                 Layout.fillHeight: true; Layout.fillWidth: true; spacing: 14
                 Label { text: root.selection?.name ?? "Select a file type"; font.bold: true; font.pixelSize: 18; Layout.fillWidth: true; wrapMode: Text.Wrap }
