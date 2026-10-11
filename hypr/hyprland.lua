@@ -1,37 +1,27 @@
 -- Monitors
 
-local monMain = "DP-2"       -- 1080p280, workspaces 1-10
-local monSide = "HDMI-A-1"   -- 4K60,     workspaces 11-20
+local monMain = "DP-2"     -- 1080p280, workspaces 1-10
+local monSide = "HDMI-A-1" -- 4K60, workspaces 11-20
 
--- The VG259QM's 280 Hz overclock never appears in its mode list: the EDID
--- flags that timing as stereo 3D, so the kernel drops it. This modeline is
--- EDID DTD 1 copied verbatim (279.857 Hz). Monitor tools that pick from the
--- mode list (hyprmoncfg was removed for this) snap it back to 239.76.
-hl.monitor({ output = monMain, mode = "modeline 628 1920 1968 2028 2040 1080 1090 1092 1100 +hsync -vsync", position = "0x123", scale = 1 })
+-- The EDID mode list omits this 280 Hz timing.
+hl.monitor({ output = monMain, mode = "modeline 628 1920 1968 2028 2040 1080 1090 1092 1100 +hsync -vsync", position = "0x123", scale = 1, vrr = 1 })
 hl.monitor({ output = monSide, mode = "3840x2160@60", position = "1920x0", scale = 1.5 })
 
-hl.config({
-    xwayland = {
-        force_zero_scaling = true,
-        use_nearest_neighbor = false,
-    },
-})
+-- Programs
 
--- My programs
-
+local home = os.getenv("HOME")
+local scripts = home .. "/.config/hypr/scripts"
 local terminal = "uwsm app -- alacritty"
-local defaultApp = "python3 " .. string.format("%q", os.getenv("HOME") .. "/.config/quickshell/scripts/desktop_bridge.py") .. " --launch-role "
+local defaultApp = "python3 " .. string.format("%q", home .. "/.config/quickshell/scripts/desktop_bridge.py") .. " --launch-role "
 local fileManager = defaultApp .. "files"
 local browser = defaultApp .. "browser"
 local editor = defaultApp .. "editor"
 local menu = "quickshell ipc call shell launcher"
 
-local scripts     = os.getenv("HOME") .. "/.config/hypr/scripts"
-
 -- Autostart
 
 hl.on("hyprland.start", function()
-    -- Claims _NET_SYSTEM_TRAY_S0 so XEmbed icons reach the SNI tray.
+    -- Bridge legacy tray icons to SNI.
     hl.exec_cmd("uwsm app -- xembedsniproxy")
     hl.exec_cmd("uwsm app -- blueman-applet")
     hl.exec_cmd("uwsm app -- wl-gammarelay-rs")
@@ -41,13 +31,13 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("uwsm app -- tailscale systray")
 end)
 
--- Environment variables
+-- Environment
 
 hl.env("XCURSOR_THEME", "Adwaita")
 hl.env("XCURSOR_SIZE", "24")
 hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
 
--- Look and feel
+-- Appearance and rendering
 
 hl.config({
     general = {
@@ -67,56 +57,45 @@ hl.config({
     decoration = {
         rounding = 1,
 
-        blur = {
-            enabled = false,
-            size    = 3,
-            passes  = 1,
-        },
-
-        shadow = {
-            enabled      = false,
-            range        = 4,
-            render_power = 3,
-            color        = "rgba(1a1a1aee)",
-        },
+        blur = { enabled = false },
+        shadow = { enabled = false },
     },
 
     animations = {
         enabled = false,
     },
-})
 
-hl.config({
     dwindle = {
         preserve_split = true,
     },
-})
 
--- Misc
-
-hl.config({
     misc = {
         force_default_wallpaper = 0,
     },
-})
 
--- Bypass compositing for fullscreen games.
-hl.config({
     render = {
         direct_scanout = true,
+    },
+
+    cursor = {
+        no_hardware_cursors = true,
+    },
+
+    xwayland = {
+        force_zero_scaling = true,
+        use_nearest_neighbor = false,
     },
 })
 
 -- Plugins
 
-local csgoPlugin = os.getenv("HOME") .. "/.local/lib/hyprland/libhyprcsgo.so"
+local csgoPlugin = home .. "/.local/lib/hyprland/libhyprcsgo.so"
 local csgoFile = io.open(csgoPlugin, "r")
 if csgoFile then
     csgoFile:close()
     hl.plugin.load(csgoPlugin)
 end
 
--- Apply plugin settings only when its Lua API is available.
 if hl.plugin.csgo_vulkan_fix then
     hl.config({
         plugin = {
@@ -133,9 +112,9 @@ end
 
 hl.config({
     input = {
-        kb_layout    = "us",
-        follow_mouse = 1,
-        sensitivity  = 0,
+        kb_layout     = "us",
+        follow_mouse  = 1,
+        sensitivity   = 0,
         accel_profile = "flat",
 
         touchpad = {
@@ -163,7 +142,7 @@ hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("quickshell ipc call shell settin
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("quickshell ipc call shell dashboard"))
 
 -- Window management
-dofile(os.getenv("HOME") .. "/.config/hypr/scripts/altswitch.lua")
+dofile(scripts .. "/altswitch.lua")
 
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
@@ -182,7 +161,7 @@ end
 hl.bind(mainMod .. " + SHIFT + N", gammaTemp(2500))
 hl.bind(mainMod .. " + SHIFT + M", gammaTemp(6500))
 
--- Disable damage tracking to prevent shader flicker.
+-- Vibrance
 hl.bind(mainMod .. " + SHIFT + J", hl.dsp.exec_cmd(scripts .. "/vibrance.sh on"))
 hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd(scripts .. "/vibrance.sh off"))
 
@@ -201,23 +180,22 @@ local resizeKeys = {
 }
 for key, delta in pairs(resizeKeys) do
     hl.bind(mainMod .. " + SHIFT + " .. key,
-            hl.dsp.window.resize({ x = delta.x, y = delta.y, relative = true }))
+        hl.dsp.window.resize({ x = delta.x, y = delta.y, relative = true }))
 end
 
 -- ALT selects side-monitor workspaces; SHIFT moves windows.
 for i = 1, 10 do
-    local key = i % 10 -- 10 maps to key 0
+    local key = i % 10
 
-    hl.bind(mainMod .. " + " .. key,                 hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key,         hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + " .. key,               hl.dsp.focus({ workspace = i }))
+    hl.bind(mainMod .. " + SHIFT + " .. key,       hl.dsp.window.move({ workspace = i }))
 
-    hl.bind(mainMod .. " + ALT + " .. key,           hl.dsp.focus({ workspace = i + 10 }))
-    hl.bind(mainMod .. " + ALT + SHIFT + " .. key,   hl.dsp.window.move({ workspace = i + 10 }))
+    hl.bind(mainMod .. " + ALT + " .. key,         hl.dsp.focus({ workspace = i + 10 }))
+    hl.bind(mainMod .. " + ALT + SHIFT + " .. key, hl.dsp.window.move({ workspace = i + 10 }))
 end
 
 -- Windows and workspaces
 
--- Assign workspaces to monitors.
 for ws = 1, 10 do
     hl.workspace_rule({ workspace = ws, monitor = monMain, default = ws == 1, persistent = ws == 1 })
 end
@@ -227,9 +205,8 @@ for ws = 11, 20 do
 end
 
 hl.window_rule({
-    name  = "cs2",
-    match = { class = "cs2" },
-
+    name       = "cs2",
+    match      = { class = "cs2" },
     immediate  = true,
     fullscreen = true,
 })
