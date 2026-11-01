@@ -12,3 +12,6 @@ RestartSec=2
 TimeoutStartSec=20
 KillMode=control-group
 Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=graphical-session.target

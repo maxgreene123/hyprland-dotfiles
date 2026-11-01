@@ -19,6 +19,50 @@ FocusScope {
         {name: "PDF documents", types: ["application/pdf"]},
         {name: "Text editor", types: ["text/plain"]}
     ]
+    // Keep in sync with hyprland.lua.
+    readonly property var keybinds: [
+        {section: "Applications", binds: [
+            ["SUPER + SHIFT + X", "Terminal"],
+            ["SUPER + SHIFT + B", "Browser"],
+            ["SUPER + SHIFT + C", "File manager"],
+            ["SUPER + SHIFT + Z", "Editor"],
+            ["SUPER + R", "App launcher"],
+            ["SUPER + SHIFT + P", "Screenshot"]
+        ]},
+        {section: "Quickshell", binds: [
+            ["SUPER + SHIFT + L", "Dashboard"],
+            ["SUPER + N", "Notifications"],
+            ["SUPER + ,", "Default applications"]
+        ]},
+        {section: "Windows", binds: [
+            ["SUPER + Q", "Close window"],
+            ["SUPER + V", "Toggle floating"],
+            ["SUPER + F", "Fullscreen"],
+            ["SUPER + SHIFT + W/A/S/D", "Move window"],
+            ["SUPER + SHIFT + Arrows", "Resize window"],
+            ["SUPER + Left drag", "Move window"],
+            ["SUPER + Right drag", "Resize window"],
+            ["ALT + TAB", "Switch window"],
+            ["ALT + SHIFT + TAB", "Switch window (reverse)"],
+            ["ALT + ESC", "Cancel window switch"]
+        ]},
+        {section: "Workspaces", binds: [
+            ["SUPER + 1–0", "Main monitor workspace 1–10"],
+            ["SUPER + SHIFT + 1–0", "Move window to workspace 1–10"],
+            ["SUPER + ALT + 1–0", "Side monitor workspace 11–20"],
+            ["SUPER + ALT + SHIFT + 1–0", "Move window to workspace 11–20"]
+        ]},
+        {section: "Display", binds: [
+            ["SUPER + SHIFT + N", "Warm colour (2500 K)"],
+            ["SUPER + SHIFT + M", "Neutral colour (6500 K)"],
+            ["SUPER + SHIFT + J", "Vibrance on"],
+            ["SUPER + SHIFT + K", "Vibrance off"]
+        ]},
+        {section: "Session", binds: [
+            ["SUPER + CTRL + Q", "Lock screen"],
+            ["SUPER + SHIFT + E", "Log out"]
+        ]}
+    ]
     readonly property var rows: tab === "defaults" ? roles : types.filter(t => (t.name + " " + t.mime + " " + t.extensions).toLowerCase().includes(search.text.toLowerCase()))
     function loadTypes() {
         DesktopBridge.request("apps.types", {}, (result, message) => { if (!root) return; if (result) root.types = result; else root.error = message; });
@@ -46,11 +90,13 @@ FocusScope {
         RowLayout {
             FlatButton { text: "Default apps"; active: root.tab === "defaults"; onClicked: { root.tab = "defaults"; root.select(root.roles[0]); } }
             FlatButton { text: "File types"; active: root.tab === "types"; onClicked: { root.tab = "types"; root.selection = null; root.details = null; root.requestGeneration++; } }
+            FlatButton { text: "Keybinds"; active: root.tab === "keybinds"; onClicked: { root.tab = "keybinds"; root.requestGeneration++; } }
             Item { Layout.fillWidth: true }
         }
-        Label { text: "Choose which apps open links, folders, and files."; color: Theme.muted; Layout.fillWidth: true; wrapMode: Text.Wrap; elide: Text.ElideNone }
+        Label { visible: root.tab !== "keybinds"; text: "Choose which apps open links, folders, and files."; color: Theme.muted; Layout.fillWidth: true; wrapMode: Text.Wrap; elide: Text.ElideNone }
         ColumnLayout {
             id: body
+            visible: root.tab !== "keybinds"
             Layout.fillHeight: true; Layout.fillWidth: true; spacing: 14
             ColumnLayout {
                 Layout.fillWidth: true; Layout.preferredHeight: body.height * 0.45
@@ -61,7 +107,7 @@ FocusScope {
                     delegate: FlatButton {
                         required property var modelData
                         width: typeList.width; height: 48
-                        text: modelData.name
+                        text: modelData.name; textAlignment: Text.AlignLeft
                         active: root.selection === modelData
                         onClicked: root.select(modelData)
                     }
@@ -100,6 +146,27 @@ FocusScope {
                 Label { text: root.error; visible: text !== ""; color: Theme.warning; Layout.fillWidth: true; wrapMode: Text.Wrap; elide: Text.ElideNone }
                 Item { Layout.fillHeight: true }
                 Label { text: "Browser, file-manager, and editor shortcuts follow these choices."; wrapMode: Text.Wrap; elide: Text.ElideNone; color: Theme.muted; font.pixelSize: 12; Layout.fillWidth: true }
+            }
+        }
+        ListView {
+            id: keybindList
+            visible: root.tab === "keybinds"
+            Layout.fillWidth: true; Layout.fillHeight: true
+            clip: true; spacing: 18; model: root.keybinds
+            boundsBehavior: Flickable.StopAtBounds
+            delegate: ColumnLayout {
+                required property var modelData
+                width: keybindList.width; spacing: 6
+                Label { text: modelData.section.toUpperCase(); color: Theme.muted; font.pixelSize: 12 }
+                Repeater {
+                    model: modelData.binds
+                    RowLayout {
+                        required property var modelData
+                        Layout.fillWidth: true; spacing: 12
+                        Label { text: modelData[0]; Layout.preferredWidth: 200; font.pixelSize: 13 }
+                        Label { text: modelData[1]; color: Theme.muted; Layout.fillWidth: true; font.pixelSize: 13; wrapMode: Text.Wrap; elide: Text.ElideNone }
+                    }
+                }
             }
         }
     }

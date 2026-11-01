@@ -31,6 +31,8 @@
 | Super + Shift + W / S | Move the window up / down. |
 | Super + Shift + Left / Right | Shrink / grow window width by 40 pixels. |
 | Super + Shift + Up / Down | Shrink / grow window height by 40 pixels. |
+| Super + left-drag | Move the window. |
+| Super + right-drag | Resize the window. |
 
 ## Workspaces
 
@@ -46,7 +48,7 @@
 | Shortcut | Action |
 | --- | --- |
 | Super + Ctrl + Q | Lock the screen. |
-| Super + Shift + E | Exit Hyprland immediately. |
+| Super + Shift + E | Log out with `uwsm stop`. |
 | Super + Shift + N | Set warm display color: 2500 K. |
 | Super + Shift + M | Restore neutral display color: 6500 K. |
 | Super + Shift + J | Enable vibrance. |

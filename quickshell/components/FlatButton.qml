@@ -9,6 +9,7 @@ Button {
     property bool active: false
     property string iconName: ""
     property string iconGroup: "actions"
+    property int textAlignment: Text.AlignHCenter
     font.family: Theme.family
     font.pixelSize: Theme.fontSize
     padding: compact ? 3 : 8
@@ -26,7 +27,7 @@ Button {
         Text {
             visible: root.text !== ""; text: root.text; font: root.font; Layout.fillWidth: true
             color: root.enabled ? Theme.text : Theme.border
-            verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter; horizontalAlignment: root.textAlignment
             elide: Text.ElideRight
         }
     }

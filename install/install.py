@@ -17,6 +17,10 @@ CONFIG = TARGET_HOME / '.config'
 STATE = Path(os.environ.get('XDG_STATE_HOME', TARGET_HOME / '.local/state')) / 'dotfiles'
 BOOTSTRAP = ['base-devel', 'git', 'python']
 PACKAGE_LIST = ROOT / 'install/packages.txt'
+SESSION_UNITS = {
+    'quickshell.service': CONFIG / 'systemd/user/quickshell.service',
+    'hyprpaper.service': Path('/usr/lib/systemd/user/hyprpaper.service'),
+}
 
 
 def run(*args, **kwargs):
@@ -64,10 +68,8 @@ def save_existing(path, backup):
 
 def install_files(backup):
     files = files_to_install()
-    plugin = TARGET_HOME / '.local/lib/hyprland/libhyprcsgo.so'
     for _, destination in files:
         check_destination(destination)
-    check_destination(plugin)
     for source, destination in files:
         save_existing(destination, backup)
         shutil.copy2(source, destination)
@@ -79,9 +81,12 @@ def install_files(backup):
                 destination.write_text(text.replace('/home/maxgreene', str(TARGET_HOME)))
     for name in ['Desktop', 'Documents', 'Downloads', 'Music', 'Pictures', 'Screenshots', 'Videos']:
         (TARGET_HOME / name).mkdir(exist_ok=True)
-    if Path('/usr/lib/libhyprcsgo.so').exists():
-        save_existing(plugin, backup)
-        plugin.symlink_to('/usr/lib/libhyprcsgo.so')
+    # Enable without systemctl so it works from a TTY.
+    wants = CONFIG / 'systemd/user/graphical-session.target.wants'
+    for name, target in SESSION_UNITS.items():
+        link = wants / name
+        save_existing(link, backup)
+        link.symlink_to(target)
 
 
 def quickshell_installer():
@@ -186,7 +191,7 @@ def main():
     for source, destination in files_to_install():
         print(f'  {source.relative_to(ROOT)} -> {destination}')
     print('  Quickshell configuration, user service, and D-Bus activation (start at next Hyprland login)')
-    print('  Existing packaged CS2 plugin linked only when already installed')
+    print('  Enable quickshell.service and hyprpaper.service for graphical-session.target')
     if not args.config_only:
         print('  Upgrade Arch; bootstrap yay; install desktop dependencies from install/packages.txt:')
         print('  ' + ' '.join(read_packages()))

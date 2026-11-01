@@ -1,10 +1,10 @@
 -- Monitors
 
-local monMain = "DP-2"     -- 1080p280, workspaces 1-10
+local monMain = "DP-2"     -- 1080p270, workspaces 1-10
 local monSide = "HDMI-A-1" -- 4K60, workspaces 11-20
 
--- The EDID mode list omits this 280 Hz timing.
-hl.monitor({ output = monMain, mode = "modeline 628 1920 1968 2028 2040 1080 1090 1092 1100 +hsync -vsync", position = "0x123", scale = 1, vrr = 1 })
+-- 270 Hz modeline; the EDID has no 270 Hz mode.
+hl.monitor({ output = monMain, mode = "modeline 606 1920 1968 2028 2040 1080 1090 1092 1100 +hsync -vsync", position = "0x123", scale = 1, vrr = 1 })
 hl.monitor({ output = monSide, mode = "3840x2160@60", position = "1920x0", scale = 1.5 })
 
 -- Programs
@@ -18,24 +18,16 @@ local browser = defaultApp .. "browser"
 local editor = defaultApp .. "editor"
 local menu = "quickshell ipc call shell launcher"
 
--- Autostart
+-- Autostart (hyprpaper, quickshell, and blueman start through uwsm)
 
 hl.on("hyprland.start", function()
     -- Bridge legacy tray icons to SNI.
     hl.exec_cmd("uwsm app -- xembedsniproxy")
-    hl.exec_cmd("uwsm app -- blueman-applet")
     hl.exec_cmd("uwsm app -- wl-gammarelay-rs")
     hl.exec_cmd("uwsm app -- /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
-    hl.exec_cmd("uwsm app -- hyprpaper")
-    hl.exec_cmd("systemctl --user start quickshell.service")
+    hl.exec_cmd("hyprpm reload")
     hl.exec_cmd("uwsm app -- tailscale systray")
 end)
-
--- Environment
-
-hl.env("XCURSOR_THEME", "Adwaita")
-hl.env("XCURSOR_SIZE", "24")
-hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
 
 -- Appearance and rendering
 
@@ -74,11 +66,11 @@ hl.config({
     },
 
     render = {
-        direct_scanout = true,
+        direct_scanout = 1,
     },
 
     cursor = {
-        no_hardware_cursors = true,
+        no_hardware_cursors = 1,
     },
 
     xwayland = {
@@ -88,24 +80,9 @@ hl.config({
 })
 
 -- Plugins
-
-local csgoPlugin = home .. "/.local/lib/hyprland/libhyprcsgo.so"
-local csgoFile = io.open(csgoPlugin, "r")
-if csgoFile then
-    csgoFile:close()
-    hl.plugin.load(csgoPlugin)
-end
-
-if hl.plugin.csgo_vulkan_fix then
-    hl.config({
-        plugin = {
-            csgo_vulkan_fix = {
-                fix_mouse = true,
-            },
-        },
-    })
-
+if hl.plugin.csgo_vulkan_fix ~= nil then
     hl.plugin.csgo_vulkan_fix.vkfix_app({ app = "cs2", w = 1280, h = 960 })
+    hl.config({ plugin = { csgo_vulkan_fix = { fix_mouse = true } } })
 end
 
 -- Input
@@ -148,8 +125,12 @@ hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
+-- Mouse drag
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
 -- Session
-hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exit())
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("uwsm stop"))
 hl.bind(mainMod .. " + CTRL + Q",  hl.dsp.exec_cmd("uwsm app -- /usr/bin/hyprlock"))
 
 -- Colour temperature

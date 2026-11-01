@@ -47,10 +47,10 @@ ColumnLayout {
             Label { text: "[CPU:" + DesktopBridge.stats.cpu + "%]  [MEM:" + DesktopBridge.stats.memory + "%]  [GPU:" + (DesktopBridge.stats.gpu == null ? "—" : DesktopBridge.stats.gpu + "%") + "]"; Layout.fillWidth: true }
             Label { text: "CPU temperature: " + (DesktopBridge.stats.temperature ?? "—") + "°C"; Layout.fillWidth: true }
             MediaControls { Layout.fillWidth: true }
-            FlatButton { text: "App launcher"; Layout.fillWidth: true; onClicked: ShellState.toggle("launcher", ShellState.panelScreen) }
-            FlatButton { text: "Control center"; Layout.fillWidth: true; onClicked: ShellState.toggle("controls", ShellState.panelScreen) }
-            FlatButton { text: "Notifications (" + Notifs.unreadCount + ")"; Layout.fillWidth: true; onClicked: ShellState.toggle("notifications", ShellState.panelScreen) }
-            FlatButton { text: "Default applications"; Layout.fillWidth: true; onClicked: ShellState.toggle("settings", ShellState.panelScreen) }
+            FlatButton { text: "App launcher"; Layout.fillWidth: true; textAlignment: Text.AlignLeft; onClicked: ShellState.toggle("launcher", ShellState.panelScreen) }
+            FlatButton { text: "Control center"; Layout.fillWidth: true; textAlignment: Text.AlignLeft; onClicked: ShellState.toggle("controls", ShellState.panelScreen) }
+            FlatButton { text: "Notifications (" + Notifs.unreadCount + ")"; Layout.fillWidth: true; textAlignment: Text.AlignLeft; onClicked: ShellState.toggle("notifications", ShellState.panelScreen) }
+            FlatButton { text: "Default applications"; Layout.fillWidth: true; textAlignment: Text.AlignLeft; onClicked: ShellState.toggle("settings", ShellState.panelScreen) }
             Item { Layout.fillHeight: true }
         }
     }

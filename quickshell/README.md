@@ -38,7 +38,7 @@ are already installed. Installation does not contact the compositor or start
 services, so it works from a TTY.
 
 Quickshell installs into `~/.config/quickshell`, `~/.config/systemd/user`, and
-`~/.local/share/dbus-1/services`. Hyprland starts `quickshell.service` at login.
+`~/.local/share/dbus-1/services`. UWSM starts `quickshell.service` with `graphical-session.target`.
 Existing app associations and iwd profiles remain unchanged by the shell installer.
 The full installer fills missing browser, file-manager, and editor defaults.
 

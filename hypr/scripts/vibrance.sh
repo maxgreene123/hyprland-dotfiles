@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Full redraw prevents shader flicker; restore damage tracking when disabled.
-# Lua configs require eval instead of keyword.
+# Full redraw prevents shader flicker.
 
 set_damage() {
     hyprctl eval "hl.config({ debug = { damage_tracking = $1 } })" > /dev/null
@@ -13,7 +12,7 @@ case "$1" in
         set_damage 0
         ;;
     off)
-        # Repaint both monitors before restoring damage tracking, including after reloads.
+        # Repaint before restoring damage tracking.
         set_damage 0
         hyprshade off || exit 1
         sleep 0.25
