@@ -29,10 +29,8 @@ class InstallationTests(unittest.TestCase):
             (source / 'integration' / path.name).write_bytes(path.read_bytes())
         values = dict(ROOT=source, CONFIG=config, DATA=data, STATE=base / 'state',
             DEST=config / 'quickshell', UNIT=config / 'systemd/user/quickshell.service',
-            ACTIVATION=data / 'dbus-1/services/org.freedesktop.Notifications.service',
-            LEGACY=data / 'dbus-1/services/fr.emersion.mako.service',
-            MAKO_UNIT=config / 'systemd/user/mako.service')
-        values['PATHS'] = [values[k] for k in ['DEST', 'UNIT', 'ACTIVATION', 'LEGACY', 'MAKO_UNIT']]
+            ACTIVATION=data / 'dbus-1/services/org.freedesktop.Notifications.service')
+        values['PATHS'] = [values[k] for k in ['DEST', 'UNIT', 'ACTIVATION']]
         p = patch.multiple(session, **values)
         p.start(); self.addCleanup(p.stop)
         config.mkdir()

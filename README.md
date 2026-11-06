@@ -18,7 +18,7 @@ See [KEYBINDS.md](KEYBINDS.md) for shortcuts and the [Quickshell README](quicksh
 
 ## What it installs
 
-- **Desktop:** Hyprland, UWSM, Quickshell, lock screen, wallpaper, monitor controls, and shaders.
+- **Desktop:** Hyprland, UWSM, Quickshell, lock screen, wallpaper, and shaders.
 - **Apps:** Brave Origin, Alacritty, Thunar, Zed, Obsidian, and Spotify.
 - **Integration:** PipeWire audio, Wi-Fi/Bluetooth controls, Tailscale, authentication prompts, desktop portals, screenshots, and clipboard tools.
 - **Appearance and shell:** fonts, icons, GTK themes, Zsh plugins, and Oh My Zsh.

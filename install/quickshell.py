@@ -15,9 +15,7 @@ STATE = Path(os.environ.get('XDG_STATE_HOME', Path.home() / '.local/state')) / '
 DEST = CONFIG / 'quickshell'
 UNIT = CONFIG / 'systemd/user/quickshell.service'
 ACTIVATION = DATA / 'dbus-1/services/org.freedesktop.Notifications.service'
-LEGACY = DATA / 'dbus-1/services/fr.emersion.mako.service'
-MAKO_UNIT = CONFIG / 'systemd/user/mako.service'
-PATHS = [DEST, UNIT, ACTIVATION, LEGACY, MAKO_UNIT]
+PATHS = [DEST, UNIT, ACTIVATION]
 
 
 def run(*args, check=True):
@@ -110,10 +108,6 @@ def install(start=True):
         UNIT.write_text(unit)
         ACTIVATION.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(DEST / 'integration/org.freedesktop.Notifications.service', ACTIVATION)
-        if LEGACY.is_file() and 'SystemdService=quickshell.service' in LEGACY.read_text():
-            LEGACY.unlink()
-        if not shutil.which('mako') and MAKO_UNIT.is_symlink() and os.readlink(MAKO_UNIT) == '/dev/null':
-            MAKO_UNIT.unlink()
         if start:
             reload_services()
             run('systemctl', '--user', 'restart', 'quickshell.service')

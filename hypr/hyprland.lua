@@ -13,10 +13,6 @@ local home = os.getenv("HOME")
 local scripts = home .. "/.config/hypr/scripts"
 local terminal = "uwsm app -- alacritty"
 local defaultApp = "python3 " .. string.format("%q", home .. "/.config/quickshell/scripts/desktop_bridge.py") .. " --launch-role "
-local fileManager = defaultApp .. "files"
-local browser = defaultApp .. "browser"
-local editor = defaultApp .. "editor"
-local menu = "quickshell ipc call shell launcher"
 
 -- Autostart (hyprpaper, quickshell, and blueman start through uwsm)
 
@@ -66,7 +62,7 @@ hl.config({
     },
 
     render = {
-        direct_scanout = 1,
+        direct_scanout = 2, -- 2 = games only; 1 blacks out fullscreen Brave with wl-gammarelay active
     },
 
     cursor = {
@@ -105,35 +101,29 @@ hl.config({
 
 local mainMod = "SUPER"
 
--- Applications
 hl.bind(mainMod .. " + SHIFT + X", hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd(browser))
-hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + SHIFT + Z", hl.dsp.exec_cmd(editor))
-hl.bind(mainMod .. " + R",         hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd(defaultApp .. "browser"))
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd(defaultApp .. "files"))
+hl.bind(mainMod .. " + SHIFT + Z", hl.dsp.exec_cmd(defaultApp .. "editor"))
+hl.bind(mainMod .. " + R",         hl.dsp.exec_cmd("quickshell ipc call shell launcher"))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("uwsm app -- " .. scripts .. "/screenshot.sh"))
 
--- Quickshell panels
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("quickshell ipc call shell notifications"))
 hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("quickshell ipc call shell settings"))
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("quickshell ipc call shell dashboard"))
 
--- Window management
 dofile(scripts .. "/altswitch.lua")
 
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
--- Mouse drag
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
--- Session
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("uwsm stop"))
 hl.bind(mainMod .. " + CTRL + Q",  hl.dsp.exec_cmd("uwsm app -- /usr/bin/hyprlock"))
 
--- Colour temperature
 local function gammaTemp(kelvin)
     return hl.dsp.exec_cmd(
         "busctl --user -- set-property rs.wl-gammarelay / rs.wl.gammarelay Temperature q " .. kelvin
@@ -142,17 +132,14 @@ end
 hl.bind(mainMod .. " + SHIFT + N", gammaTemp(2500))
 hl.bind(mainMod .. " + SHIFT + M", gammaTemp(6500))
 
--- Vibrance
 hl.bind(mainMod .. " + SHIFT + J", hl.dsp.exec_cmd(scripts .. "/vibrance.sh on"))
 hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd(scripts .. "/vibrance.sh off"))
 
--- Move windows
 local moveKeys = { a = "l", d = "r", w = "u", s = "d" }
 for key, direction in pairs(moveKeys) do
     hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ direction = direction }))
 end
 
--- Resize windows
 local resizeKeys = {
     left  = { x = -40, y =   0 },
     right = { x =  40, y =   0 },
@@ -177,12 +164,9 @@ end
 
 -- Windows and workspaces
 
-for ws = 1, 10 do
-    hl.workspace_rule({ workspace = ws, monitor = monMain, default = ws == 1, persistent = ws == 1 })
-end
-
-for ws = 11, 20 do
-    hl.workspace_rule({ workspace = ws, monitor = monSide, default = ws == 11, persistent = ws == 11 })
+for ws = 1, 20 do
+    local first = ws % 10 == 1
+    hl.workspace_rule({ workspace = ws, monitor = ws <= 10 and monMain or monSide, default = first, persistent = first })
 end
 
 hl.window_rule({

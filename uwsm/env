@@ -3,7 +3,6 @@ if [ -r /etc/profile.d/flatpak.sh ]; then
     . /etc/profile.d/flatpak.sh
 fi
 
-# Desktop appearance
 export XCURSOR_THEME=Adwaita
 export XCURSOR_SIZE=24
 export QT_QPA_PLATFORMTHEME=gtk3
