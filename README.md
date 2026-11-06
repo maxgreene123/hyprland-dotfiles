@@ -9,6 +9,7 @@ See [KEYBINDS.md](KEYBINDS.md) for shortcuts and the [Quickshell README](quicksh
 - `install/`: the installer, package list, and internal Quickshell installation helper.
 - `hypr/`: monitors, shortcuts, window rules, lock screen, wallpaper, and helper scripts.
 - `quickshell/`: shell components, panels, services, and theme.
+- `applications/`: desktop entry overrides.
 - `gtk-3.0/`, `gtk-4.0/`, `gtkrc-2.0`, `icons/`: desktop appearance.
 - `uwsm/`, `xdg-desktop-portal/`: session environment and desktop portals.
 - `alacritty.toml`, `zshrc`: terminal and shell settings.

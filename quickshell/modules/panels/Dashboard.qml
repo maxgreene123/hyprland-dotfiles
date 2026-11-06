@@ -29,6 +29,7 @@ ColumnLayout {
                 Repeater {
                     model: 42
                     Rectangle {
+                        id: cell
                         required property int index
                         readonly property int day: index - ((root.month.getDay() + 6) % 7) + 1
                         readonly property bool valid: day > 0 && day <= new Date(root.month.getFullYear(), root.month.getMonth() + 1, 0).getDate()
@@ -36,6 +37,13 @@ ColumnLayout {
                         Layout.fillWidth: true; implicitHeight: 38
                         color: current ? Theme.selected : "transparent"
                         Label { anchors.centerIn: parent; text: parent.valid ? String(parent.day) : ""; font.bold: parent.current }
+                        Row {
+                            spacing: 2; anchors.horizontalCenter: parent.horizontalCenter; anchors.bottom: parent.bottom; anchors.bottomMargin: 4
+                            Repeater {
+                                model: cell.valid ? NextcloudCalendar.days[Qt.formatDate(new Date(root.month.getFullYear(), root.month.getMonth(), cell.day), "yyyy-MM-dd")] ?? [] : []
+                                Rectangle { required property string modelData; width: 4; height: 4; color: modelData || Theme.text }
+                            }
+                        }
                     }
                 }
             }
@@ -47,10 +55,20 @@ ColumnLayout {
             Label { text: "[CPU:" + DesktopBridge.stats.cpu + "%]  [MEM:" + DesktopBridge.stats.memory + "%]  [GPU:" + (DesktopBridge.stats.gpu == null ? "—" : DesktopBridge.stats.gpu + "%") + "]"; Layout.fillWidth: true }
             Label { text: "CPU temperature: " + (DesktopBridge.stats.temperature ?? "—") + "°C"; Layout.fillWidth: true }
             MediaControls { Layout.fillWidth: true }
+            ColumnLayout {
+                Layout.fillWidth: true; spacing: 4
+                Label { text: "EVENTS"; color: Theme.muted; font.pixelSize: 12 }
+                Label { visible: NextcloudCalendar.upcoming.length === 0; text: NextcloudCalendar.issue || "No upcoming events."; color: Theme.muted; wrapMode: Text.Wrap; elide: Text.ElideNone; Layout.fillWidth: true }
+                Repeater {
+                    model: NextcloudCalendar.upcoming
+                    Label { required property var modelData; text: modelData.when + "  " + modelData.title; Layout.fillWidth: true }
+                }
+            }
             FlatButton { text: "App launcher"; Layout.fillWidth: true; textAlignment: Text.AlignLeft; onClicked: ShellState.toggle("launcher", ShellState.panelScreen) }
             FlatButton { text: "Control center"; Layout.fillWidth: true; textAlignment: Text.AlignLeft; onClicked: ShellState.toggle("controls", ShellState.panelScreen) }
             FlatButton { text: "Notifications (" + Notifs.unreadCount + ")"; Layout.fillWidth: true; textAlignment: Text.AlignLeft; onClicked: ShellState.toggle("notifications", ShellState.panelScreen) }
             FlatButton { text: "Default applications"; Layout.fillWidth: true; textAlignment: Text.AlignLeft; onClicked: ShellState.toggle("settings", ShellState.panelScreen) }
+            FlatButton { text: "iMessage"; Layout.fillWidth: true; textAlignment: Text.AlignLeft; onClicked: ShellState.command(["uwsm", "app", "--", "blueferry-quickshell"]) }
             Item { Layout.fillHeight: true }
         }
     }

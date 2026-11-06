@@ -12,6 +12,8 @@ at `0940abdb65749b1796aa4755eea35a161f92cb64`; MIT attribution is in `LICENSE`.
 - `SET → Other` / `Super+Comma`: default apps and file types.
 - `SET → Quick controls → Lock`: Hyprlock, beside the other session actions. Clock: calendar and media.
 - `Super+Shift+L`: dashboard with CPU, memory, and GPU usage on one line; App launcher appears above Control center.
+- Dashboard events: Nextcloud events below media, with calendar-colored dots on the calendar. Needs an app password: `secret-tool store --label="Quickshell Nextcloud calendar" service quickshell-nextcloud-calendar`.
+- Dashboard → iMessage: [BlueFerry](https://github.com/erikwb/blueferry) from its release packages; the `imessage` icon is local, not in this repo.
 - `Super+Shift+J` / `Super+Shift+K`: vibrance on / off.
 - `Alt+Tab` / `Alt+Shift+Tab`: cycle the window switcher with icons; release Alt to switch, `Alt+Escape` to cancel.
 - Dashboard TODO widget: view, add, toggle, undo, or open the vault's existing `TODO.md` below the calendar.
@@ -84,6 +86,7 @@ from the installed config.
 python3 tests/test_bridge.py
 python3 tests/test_session.py
 python3 tests/test_todos.py
+python3 tests/test_calendar.py
 lua tests/test_altswitch.lua
 QT_QPA_PLATFORMTHEME= QT_QPA_PLATFORM=offscreen dbus-run-session \
   --config-file=tests/session-bus.conf -- python3 tests/test_notifications.py
@@ -97,7 +100,8 @@ For a preview without claiming notifications or bar space:
 Bar metrics refresh every five seconds. Network changes arrive through iwd
 signals, with a 60-second reconciliation timer as a fallback. The TODO helper
 refreshes every ten seconds while the dashboard is open, and immediately when
-opening the dashboard or editing a task. Hidden panels are unloaded.
+opening the dashboard or editing a task. Calendar events refresh every five
+minutes while the dashboard is open. Hidden panels are unloaded.
 
 The tray hides Bluetooth and NetworkManager icons. Bluetooth and
 network controls remain available in SET.

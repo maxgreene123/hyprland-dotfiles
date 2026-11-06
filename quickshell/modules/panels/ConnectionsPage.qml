@@ -88,6 +88,7 @@ Flickable {
             FlatButton { iconName: "bluetooth"; iconGroup: "devices"; text: root.adapter?.enabled ? "[On]" : "[Off]"; enabled: !!root.adapter; onClicked: root.adapter.enabled = !root.adapter.enabled }
             FlatButton { text: root.adapter?.discovering ? "Stop" : "Scan"; enabled: root.adapter?.enabled ?? false; onClicked: root.adapter.discovering = !root.adapter.discovering }
         }
+        FlatButton { text: "Bluetooth device settings"; leftPadding: 0; onClicked: ShellState.command(["uwsm", "app", "--", "blueman-manager"]) }
         Repeater {
             model: root.adapter?.enabled ? root.adapter.devices.values : []
             RowLayout {
@@ -106,7 +107,6 @@ Flickable {
                 }
             }
         }
-        FlatButton { text: "Bluetooth device settings"; onClicked: ShellState.command(["uwsm", "app", "--", "blueman-manager"]) }
     }
     Connections {
         target: DesktopBridge

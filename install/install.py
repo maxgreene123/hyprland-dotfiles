@@ -34,7 +34,8 @@ def files_to_install():
         files.extend((source, CONFIG / source.relative_to(ROOT))
                      for source in sorted((ROOT / directory).rglob('*')) if source.is_file())
     for directory, destination in [('Pictures', TARGET_HOME / 'Pictures'),
-                                   ('icons', TARGET_HOME / '.local/share/icons')]:
+                                   ('icons', TARGET_HOME / '.local/share/icons'),
+                                   ('applications', TARGET_HOME / '.local/share/applications')]:
         files.extend((source, destination / source.relative_to(ROOT / directory))
                      for source in sorted((ROOT / directory).rglob('*')) if source.is_file())
     files.extend((ROOT / source, destination) for source, destination in [

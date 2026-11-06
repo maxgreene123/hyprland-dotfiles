@@ -21,7 +21,7 @@ PanelWindow {
     Rectangle {
         id: frame
         width: Math.min(parent.width - 32, window.narrowPanel ? 420 : ShellState.panel === "launcher" ? 640 : 860)
-        height: Math.min(parent.height - 64, ShellState.panel === "launcher" ? 490 : window.narrowPanel ? parent.height - 64 : 640)
+        height: Math.min(parent.height - 64, ShellState.panel === "launcher" ? 490 : window.narrowPanel ? parent.height - 64 : 780)
         x: window.sidePanel ? parent.width - width - 12 : (parent.width - width) / 2
         y: window.sidePanel ? Theme.barHeight + 12 : Math.max(Theme.barHeight + 12, (parent.height - height) / 2)
         color: Theme.background; border.width: 1; border.color: Theme.border
