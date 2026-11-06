@@ -67,8 +67,9 @@ def snapshot(events, now):
         if color not in colors:
             colors.append(color)
     return {'days': days,
-            'upcoming': [{'when': start.strftime('%a %b %-d' if all_day else '%a %b %-d %-I:%M %p'), 'title': title}
-                         for start, all_day, title, _ in upcoming[:LIMIT]]}
+            'upcoming': [{'when': start.strftime('%a %b %-d' if all_day else '%a %b %-d %-I:%M %p'),
+                          'title': title, 'color': color}
+                         for start, all_day, title, color in upcoming[:LIMIT]]}
 
 
 def fetch(base, user, login, password, now):

@@ -54,9 +54,9 @@ class CalendarTests(unittest.TestCase):
         self.assertEqual(result['days'], {'2026-11-01': ['#123456'], '2026-11-08': ['#123456', '#abcdef'],
                                           '2026-11-10': ['#123456']})
         self.assertEqual(result['upcoming'], [
-            {'when': 'Sun Nov 8 3:00 PM', 'title': 'Lunch'},
-            {'when': 'Sun Nov 8 4:00 PM', 'title': 'Gym'},
-            {'when': 'Tue Nov 10', 'title': 'Exam, part two'},
+            {'when': 'Sun Nov 8 3:00 PM', 'title': 'Lunch', 'color': '#123456'},
+            {'when': 'Sun Nov 8 4:00 PM', 'title': 'Gym', 'color': '#abcdef'},
+            {'when': 'Tue Nov 10', 'title': 'Exam, part two', 'color': '#123456'},
         ])
 
 

@@ -61,7 +61,13 @@ ColumnLayout {
                 Label { visible: NextcloudCalendar.upcoming.length === 0; text: NextcloudCalendar.issue || "No upcoming events."; color: Theme.muted; wrapMode: Text.Wrap; elide: Text.ElideNone; Layout.fillWidth: true }
                 Repeater {
                     model: NextcloudCalendar.upcoming
-                    Label { required property var modelData; text: modelData.when + "  " + modelData.title; Layout.fillWidth: true }
+                    RowLayout {
+                        id: event
+                        required property var modelData
+                        Layout.fillWidth: true; spacing: 6
+                        Rectangle { implicitWidth: 6; implicitHeight: 6; color: event.modelData.color || Theme.text }
+                        Label { text: event.modelData.when + "  " + event.modelData.title; Layout.fillWidth: true }
+                    }
                 }
             }
             FlatButton { text: "App launcher"; Layout.fillWidth: true; textAlignment: Text.AlignLeft; onClicked: ShellState.toggle("launcher", ShellState.panelScreen) }
