@@ -16,6 +16,8 @@ zsh-syntax-highlighting
 
 # Quickshell helpers and desktop integration
 python-gobject
+python-icalendar
+python-recurring-ical-events
 polkit-gnome
 xdg-utils
 xdg-desktop-portal-hyprland
